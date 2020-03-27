@@ -47,8 +47,18 @@ app.get('/loginError', (req,res) => {
 
 });
 
-app.get('/loginChoice', (req,res)=>{
-  res.render('loginChoice');
+app.get('/signeUpchoice', (req,res)=>{
+  res.render('signeUpchoice');
+});
+
+app.get('/signeInChoice' ,(req,res) =>{
+  res.render('signeInChoice');
+
+});
+
+app.get('/loginTeacher',(req,res)=>{
+  res.render('loginTeacher');
+
 });
 
 
