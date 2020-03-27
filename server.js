@@ -18,10 +18,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieSession({
     secret: 'mot-de-passe-du-cookie'
-}));
+  }));
 
-app.get('/', (req,res) => {
-  res.render('index' ,{authenticated: res.locals.authenticated});
+  
+app.get('/',is_ided, (req,res) => {
+    res.render('index' ,{authenticated: res.locals.authenticated});
 });
 
 app.get('/loginStudent' ,(req,res)=> {
@@ -36,7 +37,6 @@ app.get('/new_student_user',(req,res)=> {
   res.render('new_student_user')
 });
 
-
 app.get('/logout', (req, res) => {
   req.session = null;
   res.redirect('/');
@@ -50,6 +50,37 @@ app.get('/loginError', (req,res) => {
 app.get('/loginChoice', (req,res)=>{
   res.render('loginChoice');
 });
+
+
+
+app.post('/loginStudent', (req,res)=> {
+  var id = model.login_student(req.body.name, req.body.password);
+  if (id === -1){
+ res.redirect('/loginError');
+
+  }
+  else {
+    req.session.user = id;
+    res.redirect('/');
+  } 
+});
+
+app.post('/new_student_user',(req,res)=> {
+  //var newUser = model.new_user(req.body.name, req.body.password);
+  //req.session.user = newUser;
+  req.session.user = model.new_student_user(req.body.name, req.body.password);
+  res.redirect('/');
+});
+
+
+
+function is_ided(req, res, next) {
+  res.locals.authenticated = req.session.user !== undefined;
+  return next();
+}
+
+app.use(is_ided);
+
 
 
 
