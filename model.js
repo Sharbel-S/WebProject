@@ -12,8 +12,22 @@ exports.login_student = (name, password) => {
     return id;
   }
 
+  exports.login_teacher = (name, password) => {
+    var id = db.prepare('SELECT id FROM teacherusers WHERE name=? AND password=?').get([name, password]);
+    console.log(name);
+    if (id == null) return -1;
+    return id;
+  }
+
+
 exports.new_student_user = function(name, password) {
     var insertUser = db.prepare('INSERT INTO studentusers (name, password) VALUES (?, ?)');
+    var id = insertUser.run([name, password]).lastInsertRowid;
+    return id;
+  }
+
+  exports.new_teacher_user = function(name, password) {
+    var insertUser = db.prepare('INSERT INTO teacherusers (name, password) VALUES (?, ?)');
     var id = insertUser.run([name, password]).lastInsertRowid;
     return id;
   }

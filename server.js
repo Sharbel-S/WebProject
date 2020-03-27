@@ -47,6 +47,11 @@ app.get('/loginError', (req,res) => {
 
 });
 
+app.get('/loginErrorT',(req,res)=> {
+  res.render('loginErrorT');
+
+});
+
 app.get('/signeUpchoice', (req,res)=>{
   res.render('signeUpchoice');
 });
@@ -75,6 +80,18 @@ app.post('/loginStudent',(req,res)=> {
   } 
 });
 
+app.post('/loginTeacher' , (req, res)=> {
+  var id = model.login_teacher(req.body.name, req.body.password);
+  if (id === -1){
+    res.redirect('/loginErrorT');
+  }
+  else{
+    req.session.teacher_user = id;
+    res.redirect('/test');
+  }
+
+});
+
 app.post('/new_student_user',(req,res)=> {
   //var newUser = model.new_user(req.body.name, req.body.password);
   //req.session.user = newUser;
@@ -90,7 +107,7 @@ function is_authenticated(req, res, next) {
     res.locals.authenticated = true;
     return next();
   }
-  if(req.session.teacher !== undefined) {
+  if(req.session.teacher_user !== undefined) {
     res.locals.authen_teacher = true;
     res.locals.authenticated = true;
     return next();
