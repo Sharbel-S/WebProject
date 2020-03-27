@@ -37,4 +37,20 @@ app.get('/new_student_user',(req,res)=> {
 });
 
 
+app.get('/logout', (req, res) => {
+  req.session = null;
+  res.redirect('/');
+});
+
+app.get('/loginError', (req,res) => {
+  res.render('loginError');
+
+});
+
+app.get('/loginChoice', (req,res)=>{
+  res.render('loginChoice');
+});
+
+
+
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
