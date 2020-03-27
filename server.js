@@ -18,6 +18,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieSession({
     secret: 'mot-de-passe-du-cookie'
-  }));
+}));
+
+app.get('/', (req,res) => {
+  res.render('index' ,{authenticated: res.locals.authenticated});
+});
+
+app.get('/loginStudent' ,(req,res)=> {
+  res.render('loginStudent');
+});
+
+app.get('/test' ,(req,res)=> {
+  res.render('test');
+});
+
+app.get('/new_student_user',(req,res)=> {
+  res.render('new_student_user')
+});
+
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
