@@ -21,15 +21,15 @@ app.use(cookieSession({
   }));
 
   
-app.get('/',is_ided, (req,res) => {
-    res.render('index' ,{authenticated: res.locals.authenticated});
+app.get('/' ,(req,res) => {
+    res.render('index');
 });
 
 app.get('/loginStudent' ,(req,res)=> {
   res.render('loginStudent');
 });
 
-app.get('/test' ,(req,res)=> {
+app.get('/test' , is_authenticated,(req,res)=> {
   res.render('test');
 });
 
@@ -63,33 +63,40 @@ app.get('/loginTeacher',(req,res)=>{
 
 
 
-app.post('/loginStudent', (req,res)=> {
+app.post('/loginStudent',(req,res)=> {
   var id = model.login_student(req.body.name, req.body.password);
   if (id === -1){
  res.redirect('/loginError');
 
   }
   else {
-    req.session.user = id;
-    res.redirect('/');
+    req.session.student_user = id;
+    res.redirect('/test');
   } 
 });
 
 app.post('/new_student_user',(req,res)=> {
   //var newUser = model.new_user(req.body.name, req.body.password);
   //req.session.user = newUser;
-  req.session.user = model.new_student_user(req.body.name, req.body.password);
+  req.session.student_user = model.new_student_user(req.body.name, req.body.password);
   res.redirect('/');
 });
 
 
 
-function is_ided(req, res, next) {
-  res.locals.authenticated = req.session.user !== undefined;
-  return next();
+function is_authenticated(req, res, next) {
+  if(req.session.student_user !== undefined) {
+    res.locals.authen_student = true;
+    res.locals.authenticated = true;
+    return next();
+  }
+  if(req.session.teacher !== undefined) {
+    res.locals.authen_teacher = true;
+    res.locals.authenticated = true;
+    return next();
+  }
+  res.status(401).send('Authentication required');
 }
-
-app.use(is_ided);
 
 
 
