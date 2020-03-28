@@ -7,14 +7,12 @@ let db = new Sqlite('db.sqlite');
 
 exports.login_student = (name, password) => {
     var id = db.prepare('SELECT id FROM studentusers WHERE name=? AND password=?').get([name, password]);
-    console.log(name);
     if (id == null) return -1;
     return id;
   }
 
   exports.login_teacher = (name, password) => {
     var id = db.prepare('SELECT id FROM teacherusers WHERE name=? AND password=?').get([name, password]);
-    console.log(name);
     if (id == null) return -1;
     return id;
   }

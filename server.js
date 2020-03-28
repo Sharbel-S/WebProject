@@ -2,39 +2,65 @@ var express = require('express');
 var mustache = require('mustache-express');
 const cookieSession = require('cookie-session');
 
-
 var model = require('./model');
 var app = express();
-
 
 app.engine('html', mustache());
 app.set('view engine', 'html');
 app.set('views', './views');
 
-
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
-
 
 app.use(cookieSession({
     secret: 'mot-de-passe-du-cookie'
   }));
 
+
   
+
+// GET methodes
+
 app.get('/' ,(req,res) => {
     res.render('index');
+});
+
+
+app.get('/signeInChoice' ,(req,res) =>{
+  res.render('signeInChoice');
+
 });
 
 app.get('/loginStudent' ,(req,res)=> {
   res.render('loginStudent');
 });
 
-app.get('/test' , is_authenticated,(req,res)=> {
-  res.render('test');
+app.get('/loginError', (req,res) => {
+  res.render('loginError');
+});
+
+app.get('/loginTeacher',(req,res)=>{
+  res.render('loginTeacher');
+});
+
+app.get('/loginErrorT',(req,res)=> {
+  res.render('loginErrorT');
+});
+
+app.get('/signeUpchoice', (req,res)=>{
+  res.render('signeUpchoice');
 });
 
 app.get('/new_student_user',(req,res)=> {
   res.render('new_student_user')
+});
+
+app.get('/new_teacher_user',(req,res) =>{
+  res.render('new_teacher_user');
+});
+
+app.get('/test' , is_authenticated,(req,res)=> {
+  res.render('test');
 });
 
 app.get('/logout', (req, res) => {
@@ -42,41 +68,22 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/loginError', (req,res) => {
-  res.render('loginError');
-
-});
-
-app.get('/loginErrorT',(req,res)=> {
-  res.render('loginErrorT');
-
-});
-
-app.get('/signeUpchoice', (req,res)=>{
-  res.render('signeUpchoice');
-});
-
-app.get('/signeInChoice' ,(req,res) =>{
-  res.render('signeInChoice');
-
-});
-
-app.get('/loginTeacher',(req,res)=>{
-  res.render('loginTeacher');
-
+app.get('/t', is_authenticated ,(req,res) =>{
+  res.render('t');
 });
 
 
+
+//POST methodes
 
 app.post('/loginStudent',(req,res)=> {
   var id = model.login_student(req.body.name, req.body.password);
   if (id === -1){
  res.redirect('/loginError');
-
   }
   else {
     req.session.student_user = id;
-    res.redirect('/test');
+    res.redirect('/t');
   } 
 });
 
@@ -87,19 +94,26 @@ app.post('/loginTeacher' , (req, res)=> {
   }
   else{
     req.session.teacher_user = id;
-    res.redirect('/test');
+    res.redirect('/t');
   }
 
 });
 
 app.post('/new_student_user',(req,res)=> {
-  //var newUser = model.new_user(req.body.name, req.body.password);
-  //req.session.user = newUser;
   req.session.student_user = model.new_student_user(req.body.name, req.body.password);
-  res.redirect('/');
+  res.redirect('/test');
 });
 
 
+app.post('/new_teacher_user',(req,res)=> {
+  req.session.teacher_user = model.new_teacher_user(req.body.name, req.body.password);
+  res.redirect('/test');
+});
+
+
+
+
+// Functions
 
 function is_authenticated(req, res, next) {
   if(req.session.student_user !== undefined) {
