@@ -26,8 +26,8 @@ app.get('/' ,(req,res) => {
 });
 
 
-app.get('/signeInChoice' ,(req,res) =>{
-  res.render('signeInChoice');
+app.get('/signInChoice' ,(req,res) =>{
+  res.render('signInChoice');
 
 });
 
@@ -47,8 +47,8 @@ app.get('/loginErrorT',(req,res)=> {
   res.render('loginErrorT');
 });
 
-app.get('/signeUpchoice', (req,res)=>{
-  res.render('signeUpchoice');
+app.get('/signUpchoice', (req,res)=>{
+  res.render('signUpchoice');
 });
 
 app.get('/new_student_user',(req,res)=> {
@@ -70,6 +70,11 @@ app.get('/logout', (req, res) => {
 
 app.get('/t', is_authenticated ,(req,res) =>{
   res.render('t');
+});
+
+app.get('/about',(req,res) => {
+  res.render('about');
+
 });
 
 
