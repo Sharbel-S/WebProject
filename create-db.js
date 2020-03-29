@@ -15,6 +15,7 @@ var load = function() {
     db.prepare('INSERT INTO studentusers (name, password) VALUES (@name, @password)').run(  {name: "Sharbel", password: "password"});
     db.prepare('INSERT INTO teacherusers (name, password) VALUES (@name, @password)').run(  {name: "Marc", password: "password"});
     db.prepare('INSERT INTO courses (title, teacher, description ) VALUES (@title, @teacher, @description)').run(  {title: "Web", teacher: "Sharbel", description: "blablablabalbabalbalbalba"});
+    db.prepare('INSERT INTO courses (title, teacher, description ) VALUES (@title, @teacher, @description)').run(  {title: "Web2", teacher: "Sharbel2", description: "blablablabalbabalbalbalba2"});
 
 }
  load();

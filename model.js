@@ -29,3 +29,9 @@ exports.new_student_user = function(name, password) {
     var id = insertUser.run([name, password]).lastInsertRowid;
     return id;
   }
+
+  exports.courses_list = function(){
+    var title = db.prepare('SELECT title, teacher FROM courses ').all();
+    return title;
+  }
+    

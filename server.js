@@ -17,8 +17,6 @@ app.use(cookieSession({
   }));
 
 
-  
-
 // GET methodes
 
 app.get('/' ,(req,res) => {
@@ -75,6 +73,13 @@ app.get('/t', is_authenticated ,(req,res) =>{
 app.get('/about',(req,res) => {
   res.render('about');
 
+});
+
+
+app.get('/courses_list', (req,res) => {
+  var results = model.courses_list();
+  console.log(results);
+  res.render('courses_list',  {list:results} );
 });
 
 
