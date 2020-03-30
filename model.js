@@ -53,5 +53,6 @@ exports.new_student_user = function(name, password) {
 
   exports.create = function(courses){
     var id = db.prepare('INSERT INTO courses (subject, title, teacher, description) VALUES (@subject, @title, @teacher, @description)').run(courses);
-
   }
+
+

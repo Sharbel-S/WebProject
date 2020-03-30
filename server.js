@@ -67,7 +67,10 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/t', is_authenticated ,(req,res) =>{
-  res.render('t');
+  if(req.session.student_name === undefined) {
+    res.render('t', {name: req.session.teacher_name})
+  }
+  res.render('t' , {name: req.session.student_name} );
 });
 
 app.get('/about',(req,res) => {
@@ -112,6 +115,7 @@ app.post('/loginStudent',(req,res)=> {
   }
   else {
     req.session.student_user = id;
+    req.session.student_name = req.body.name;
     res.redirect('/t');
   } 
 });
@@ -123,6 +127,7 @@ app.post('/loginTeacher' , (req, res)=> {
   }
   else{
     req.session.teacher_user = id;
+    req.session.teacher_name = req.body.name;
     res.redirect('/t');
   }
 
