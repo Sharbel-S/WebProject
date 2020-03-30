@@ -12,9 +12,6 @@ app.engine('html', mustache());
 app.set('view engine', 'html');
 app.set('views', './views');
 
-
-
-
 app.use(cookieSession({
     secret: 'mot-de-passe-du-cookie'
   }));
@@ -102,6 +99,9 @@ app.get('/add',is_authenticated,(req,res) => {
   res.render('add');
  })
 
+ app.get('/add_confirmation', is_authenticated,(req,res) => {
+   res.render('add_confirmation');
+ });
 
 //POST methodes
 
@@ -140,7 +140,6 @@ app.post('/new_teacher_user',(req,res)=> {
 });
 
 
-
 app.post('/edit/:id', (req,res) => {
   const id = req.params.id;
   var test = post_data_to_course(req);
@@ -158,8 +157,7 @@ app.post("/delete/:id", (req, res) => {
 
 app.post('/add',(req,res) => {
   var id = model.create(post_data_to_course(req));
-  res.redirect('/courses_list')
-
+  res.redirect('/add_confirmation');
 });
 
 // Functions
