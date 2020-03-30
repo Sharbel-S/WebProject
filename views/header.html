@@ -9,12 +9,25 @@
 
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      {{^authenticated}}
     <a class="navbar-brand" href="/"> Courses </a>
+    {{/authenticated}}
+
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         {{#authenticated}}
-          <li><a href="/logout" class="btn btn-primary mr-2">Signe out</a></li>
+              <li class="nav-item active">
+                <a class="nav-link" href="/courses_list">List of Courses <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/">About</a>
+              </li>
+          </div>
+
         {{/authenticated}}
       </ul>
       <div class="collapse navbar-collapse justify-content-end">
@@ -27,6 +40,13 @@
         </ul>
       </div>
     </div>
+    {{#authenticated}}
+    <form class="form-inline my-2 my-lg-0">
+      <a href="/logout" class="btn btn-primary mr-2">Sign out</a>
+    </form>
+    {{/authenticated}}
+
+
   </nav>
 
 <main role="main" class="container" style="margin-top: 3rem">

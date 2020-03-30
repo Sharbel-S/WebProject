@@ -46,3 +46,8 @@ exports.new_student_user = function(name, password) {
    // var result = db.prepare('UPDATE courses SET subject = @subject, title = @title, teacher = @teacher, description = @description WHERE id = ?').run(course, id);
     return result;
   }
+
+  exports.delete = function(id) {
+    db.prepare('DELETE FROM courses WHERE id = ?').run(id);
+
+  }

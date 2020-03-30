@@ -88,6 +88,11 @@ app.get('/edit/:id',(req,res)=> {
   res.render('edit-course-form', id )
 });
 
+app.get('/delete/:id', (req,res) => {
+  var id = model.course_id(req.params.id);
+  res.render('delete', id)
+});
+
 
 
 
@@ -137,6 +142,13 @@ app.post('/edit/:id', (req,res) => {
 
 });
 
+
+app.post("/delete/:id", (req, res) => {
+  const id = req.params.id;
+  model.delete(id);
+  res.redirect('/courses_list');
+
+});
 
 // Functions
 
