@@ -10,7 +10,7 @@ var load = function() {
 
     db.prepare('CREATE TABLE studentusers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, password TEXT)').run();
     db.prepare('CREATE TABLE teacherusers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT UNIQUE, password TEXT)').run();
-    db.prepare('CREATE TABLE courses (id INTEGER PRIMARY KEY AUTOINCREMENT, subject TEXT , title TEXT NOT NULL, teacher TEXT NOT NULL, description TEXT NOT NULL)').run();
+    db.prepare('CREATE TABLE courses (id INTEGER PRIMARY KEY AUTOINCREMENT, subject TEXT NOT NULL, title TEXT NOT NULL, teacher TEXT NOT NULL, description TEXT NOT NULL)').run();
 
     db.prepare('INSERT INTO studentusers (name, password) VALUES (@name, @password)').run(  {name: "Sharbel", password: "password"});
     db.prepare('INSERT INTO teacherusers (name, password) VALUES (@name, @password)').run(  {name: "Marc", password: "password"});

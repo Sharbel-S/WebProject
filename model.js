@@ -31,7 +31,18 @@ exports.new_student_user = function(name, password) {
   }
 
   exports.courses_list = function(){
-    var title = db.prepare('SELECT subject,title, teacher FROM courses ').all();
+    var title = db.prepare('SELECT id, subject,title, teacher FROM courses ').all();
     return title;
   }
     
+  exports.course_id = function(id){
+    var id = db.prepare('SELECT * FROM courses WHERE id = ?').get([id]);
+    if (id == null) return -1;
+    return id
+  }
+
+  exports.update = function(id ,courses){
+    const result = db.prepare("UPDATE courses SET subject = @subject, title = @title, teacher = @teacher, description = @description WHERE (id = ?)").run(courses, id);
+   // var result = db.prepare('UPDATE courses SET subject = @subject, title = @title, teacher = @teacher, description = @description WHERE id = ?').run(course, id);
+    return result;
+  }

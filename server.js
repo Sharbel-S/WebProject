@@ -5,12 +5,15 @@ const cookieSession = require('cookie-session');
 var model = require('./model');
 var app = express();
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.engine('html', mustache());
 app.set('view engine', 'html');
 app.set('views', './views');
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
+
+
 
 app.use(cookieSession({
     secret: 'mot-de-passe-du-cookie'
@@ -80,6 +83,12 @@ app.get('/courses_list',is_authenticated, (req,res) => {
   res.render('courses_list',  {list:results} );
 });
 
+app.get('/edit/:id',(req,res)=> {
+  var id = model.course_id(req.params.id);
+  res.render('edit-course-form', id )
+});
+
+
 
 
 //POST methodes
@@ -120,6 +129,14 @@ app.post('/new_teacher_user',(req,res)=> {
 
 
 
+app.post('/edit/:id', (req,res) => {
+  const id = req.params.id;
+  var test = post_data_to_course(req);
+  model.update(id,test );
+  res.redirect('/courses_list', );
+
+});
+
 
 // Functions
 
@@ -137,6 +154,15 @@ function is_authenticated(req, res, next) {
   res.status(401).send('Authentication required');
 }
 
+
+function post_data_to_course(req) {
+  return {
+    subject: req.body.subject,
+    title: req.body.title, 
+    teacher: req.body.teacher,
+    description: req.body.description,
+  };
+}
 
 
 
