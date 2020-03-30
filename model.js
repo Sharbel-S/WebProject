@@ -49,5 +49,9 @@ exports.new_student_user = function(name, password) {
 
   exports.delete = function(id) {
     db.prepare('DELETE FROM courses WHERE id = ?').run(id);
+  }
+
+  exports.create = function(courses){
+    var id = db.prepare('INSERT INTO courses (subject, title, teacher, description) VALUES (@subject, @title, @teacher, @description)').run(courses);
 
   }

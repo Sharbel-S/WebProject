@@ -12,7 +12,7 @@
           <th scope="col">Teacher</th>
           <th scope="col"> Description </th>
           {{#authen_teacher}}
-          <th>    <a class="btn btn-sm btn-success" href="/create"> Add a course</a> 
+          <th>    <a class="btn btn-sm btn-success" href="/add"> Add a course</a> 
           {{/authen_teacher}}
 
           </th>
@@ -25,7 +25,7 @@
           <td>  {{subject}}  </td>
           <td>{{title}}</td>
           <td> {{teacher}} </td>
-          <td>  <a class="btn btn-link" href="/read/:id">Description</a>  </td>
+          <td>  <a class="btn btn-link" href="/read/{{id}}"> More details</a>  </td>
           {{#authen_teacher}}
           <th>     <a class="btn btn-sm btn-warning" href="/edit/{{id}}">Edit</a>
             <a class="btn btn-sm btn-danger" href="/delete/{{id}}">Delete</a>  </th>

@@ -83,17 +83,24 @@ app.get('/courses_list',is_authenticated, (req,res) => {
   res.render('courses_list',  {list:results} );
 });
 
-app.get('/edit/:id',(req,res)=> {
+app.get('/edit/:id',is_authenticated ,(req,res)=> {
   var id = model.course_id(req.params.id);
   res.render('edit-course-form', id )
 });
 
-app.get('/delete/:id', (req,res) => {
+app.get('/delete/:id',is_authenticated ,(req,res) => {
   var id = model.course_id(req.params.id);
   res.render('delete', id)
 });
 
+app.get('/read/:id', is_authenticated,(req,res) => {
+  var id = model.course_id(req.params.id);
+  res.render('read', id);
+});
 
+app.get('/add',is_authenticated,(req,res) => {
+  res.render('add');
+ })
 
 
 //POST methodes
@@ -147,6 +154,11 @@ app.post("/delete/:id", (req, res) => {
   const id = req.params.id;
   model.delete(id);
   res.redirect('/courses_list');
+});
+
+app.post('/add',(req,res) => {
+  var id = model.create(post_data_to_course(req));
+  res.redirect('/courses_list')
 
 });
 
