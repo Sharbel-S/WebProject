@@ -1,17 +1,45 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title> I love Studying</title>
-  </head>
+{{> header}}
+
 
 <body>
-    <ul>
+
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Title</th>
+          <th scope="col">Teacher</th>
+          <th scope="col"> Description </th>
+          {{#authen_teacher}}
+          <th>    <a class="btn btn-sm btn-success" href="/create"> Add a course</a> 
+          {{/authen_teacher}}
+
+          </th>
+        </tr>
+      </thead>
+      <tbody>
         {{#list}}
-        <li><a href="/movie-details/{{id}}">details</a>{{title}}  and   {{teacher}}</li>
+        <tr>
+          <th scope="row"> ° </th>
+          <td>  {{subject}}  </td>
+          <td>{{title}}</td>
+          <td> {{teacher}} </td>
+          <td>  <a class="btn btn-link" href="/read/:id">Description</a>  </td>
+          {{#authen_teacher}}
+          <th>     <a class="btn btn-sm btn-warning" href="/edit/:id">Edit</a>
+            <a class="btn btn-sm btn-danger" href="/delete/:id">Delete</a>  </th>
+          {{/authen_teacher}}
+
+
+
+        </tr>
         {{/list}}
-    </ul>
+
+      </tbody>
+    </table>
+    
+    
 </div>
 
 </body>

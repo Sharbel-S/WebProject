@@ -75,10 +75,8 @@ app.get('/about',(req,res) => {
 
 });
 
-
-app.get('/courses_list', (req,res) => {
+app.get('/courses_list',is_authenticated, (req,res) => {
   var results = model.courses_list();
-  console.log(results);
   res.render('courses_list',  {list:results} );
 });
 

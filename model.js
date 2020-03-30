@@ -31,7 +31,7 @@ exports.new_student_user = function(name, password) {
   }
 
   exports.courses_list = function(){
-    var title = db.prepare('SELECT title, teacher FROM courses ').all();
+    var title = db.prepare('SELECT subject,title, teacher FROM courses ').all();
     return title;
   }
     
