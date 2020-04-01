@@ -85,6 +85,7 @@ app.get('/courses_list',is_authenticated, (req,res) => {
   res.render('courses_list',  {list:results} );
 });
 
+
 app.get('/edit/:id',is_authenticated ,(req,res)=> {
   var id = model.course_id(req.params.id);
   res.render('edit-course-form', id )
@@ -107,6 +108,11 @@ app.get('/add',is_authenticated,(req,res) => {
  app.get('/add_confirmation', is_authenticated,(req,res) => {
    res.render('add_confirmation');
  });
+
+ app.get('/search',is_authenticated, (req,res) => {
+  var results = model.search(req.query.query);
+  res.render('search',  {list:results} );
+});
 
 //POST methodes
 
@@ -192,7 +198,6 @@ function post_data_to_course(req) {
     description: req.body.description,
   };
 }
-
 
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));

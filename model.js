@@ -55,4 +55,9 @@ exports.new_student_user = function(name, password) {
     var id = db.prepare('INSERT INTO courses (subject, title, teacher, description) VALUES (@subject, @title, @teacher, @description)').run(courses);
   }
 
-
+exports.search = function(query){
+  query = query || "";
+  var sj = db.prepare('SELECT * FROM courses WHERE subject LIKE ? OR title LIKE ? OR teacher LIKE ?').all([query, query, query]);
+  console.log(sj);
+  return sj;
+}
