@@ -37,6 +37,7 @@ exports.new_student_user = function(name, password) {
     
   exports.course_id = function(id){
     var id = db.prepare('SELECT * FROM courses WHERE id = ?').get([id]);
+    console.log("course id    " + id);
     if (id == null) return -1;
     return id
   }
@@ -60,4 +61,9 @@ exports.search = function(query){
   var sj = db.prepare('SELECT * FROM courses WHERE subject LIKE ? OR title LIKE ? OR teacher LIKE ?').all([query, query, query]);
   console.log(sj);
   return sj;
+}
+
+exports.add_like = function(results){
+  console.log(results);
+  db.prepare('INSERT INTO likers (name, course_id) VALUES (@name, @course_id)').run(results);
 }

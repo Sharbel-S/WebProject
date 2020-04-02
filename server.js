@@ -114,6 +114,12 @@ app.get('/add',is_authenticated,(req,res) => {
   res.render('search',  {list:results} );
 });
 
+app.get('/like/:id',is_authenticated , (req, res) => {
+  var likers = model.add_like(test(req));
+  res.redirect('/courses_list');
+});
+
+
 
 //POST methodes
 
@@ -200,5 +206,12 @@ function post_data_to_course(req) {
   };
 }
 
+
+function test(req) {
+  return {
+    name: req.session.student_name,
+    course_id: req.params.id,
+  };
+}
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
