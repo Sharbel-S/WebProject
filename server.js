@@ -114,6 +114,7 @@ app.get('/add',is_authenticated,(req,res) => {
   res.render('search',  {list:results} );
 });
 
+
 //POST methodes
 
 app.post('/loginStudent',(req,res)=> {
