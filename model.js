@@ -59,11 +59,21 @@ exports.new_student_user = function(name, password) {
 exports.search = function(query){
   query = query || "";
   var sj = db.prepare('SELECT * FROM courses WHERE subject LIKE ? OR title LIKE ? OR teacher LIKE ?').all([query, query, query]);
-  console.log(sj);
   return sj;
 }
 
 exports.add_like = function(results){
   console.log(results);
   db.prepare('INSERT INTO likers (name, course_id) VALUES (@name, @course_id)').run(results);
+}
+
+exports.likers_number = function(id){
+  var like =  db.prepare('SELECT COUNT(DISTINCT name) as likers FROM likers WHERE course_id = ?').get([id]);
+  return like;
+}
+
+exports.get_likers_list = function(id){
+  var list = db.prepare('SELECT DISTINCT name FROM likers WHERE course_id = ?').all(id);
+  console.log(list);
+  return list;
 }

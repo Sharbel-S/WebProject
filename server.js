@@ -98,7 +98,10 @@ app.get('/delete/:id',is_authenticated ,(req,res) => {
 
 app.get('/read/:id', is_authenticated,(req,res) => {
   var id = model.course_id(req.params.id);
-  res.render('read', id);
+  var likers = model.likers_number(req.params.id);
+  var result =finalResults(id, likers);
+  console.log(result);
+  res.render('read', result );
 });
 
 app.get('/add',is_authenticated,(req,res) => {
@@ -115,11 +118,22 @@ app.get('/add',is_authenticated,(req,res) => {
 });
 
 app.get('/like/:id',is_authenticated , (req, res) => {
-  var likers = model.add_like(test(req));
-  res.redirect('/courses_list');
+    var likers = model.add_like(test(req));
+    res.redirect('/courses_list');
+});
+
+app.get('/likers/:id' , is_authenticated, (req, res) => {
+  var likers_list = model.get_likers_list(req.params.id);
+  res.render('likers' , { likers_list:likers_list})
+
 });
 
 
+
+function teest(req, res, next){
+    res.locals.like_button = true;
+    return next();
+}
 
 //POST methodes
 
@@ -211,6 +225,19 @@ function test(req) {
   return {
     name: req.session.student_name,
     course_id: req.params.id,
+  };
+  
+}
+
+function finalResults(id, likers) {
+  return {
+    id: id.id,
+    subject: id.subject,
+    title: id.title,
+    teacher: id.teacher,
+    description: id.description,
+    likers: likers.likers,
+
   };
 }
 
