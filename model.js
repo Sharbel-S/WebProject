@@ -37,7 +37,6 @@ exports.new_student_user = function(name, password) {
     
   exports.course_id = function(id){
     var id = db.prepare('SELECT * FROM courses WHERE id = ?').get([id]);
-    console.log("course id    " + id);
     if (id == null) return -1;
     return id
   }
@@ -63,8 +62,12 @@ exports.search = function(query){
 }
 
 exports.add_like = function(results){
-  console.log(results);
   db.prepare('INSERT INTO likers (name, course_id) VALUES (@name, @course_id)').run(results);
+}
+
+exports.remove_like = function(results){
+  db.prepare(' DELETE FROM likers WHERE name = @name AND course_id = @course_id').run(results);
+
 }
 
 exports.likers_number = function(id){
@@ -74,6 +77,5 @@ exports.likers_number = function(id){
 
 exports.get_likers_list = function(id){
   var list = db.prepare('SELECT DISTINCT name FROM likers WHERE course_id = ?').all(id);
-  console.log(list);
   return list;
 }

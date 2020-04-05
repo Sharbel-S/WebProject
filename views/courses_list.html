@@ -16,6 +16,7 @@
           <th scope="col">Title</th>
           <th scope="col">Teacher</th>
           <th scope="col"> Description </th>
+          <th>     </th>
           {{#authen_teacher}}
           <th>    <a class="btn btn-sm btn-success" href="/add"> Add a course</a> 
           {{/authen_teacher}}
@@ -34,6 +35,8 @@
           {{#authen_student}}
           <td>            
              <a class="btn btn-primary" href="/like/{{id}}" >Like</a>
+             <a class="btn btn-warning" href="/unlike/{{id}}" >Unlike</a>
+
 
           </td>
           {{/authen_student}}
