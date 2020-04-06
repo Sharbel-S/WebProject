@@ -16,7 +16,10 @@
           <th scope="col">Title</th>
           <th scope="col">Teacher</th>
           <th scope="col"> Description </th>
+          {{#authen_student}}
           <th>     </th>
+          {{/authen_student}}
+
           {{#authen_teacher}}
           <th>    <a class="btn btn-sm btn-success" href="/add"> Add a course</a> 
           {{/authen_teacher}}

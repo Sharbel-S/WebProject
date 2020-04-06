@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title> I love Studying</title>
+    <title> Studypedia </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   </head>
 
@@ -25,9 +25,19 @@
               <li class="nav-item active">
                 <a class="nav-link" href="/principal_page"> Home <span class="sr-only">(current)</span></a>
               </li>
+              {{#authen_student}}
               <li class="nav-item active">
                 <a class="nav-link" href="/courses_list">List of Courses</a>
               </li>
+              {{/authen_student}}
+
+              {{#authen_teacher}}
+              <li class="nav-item active">
+                <a class="nav-link" href="/courses_list">My Courses</a>
+              </li>
+
+              {{/authen_teacher}}
+
               <li class="nav-item active">
                 <a class="nav-link" href="/help"> Help </a>
               </li>

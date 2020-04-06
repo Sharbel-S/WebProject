@@ -5,6 +5,8 @@
 <body>
 
    <h1>  Welcome  {{name}} ! </h1> <br>
+   {{#authen_student}}
+
    <div class="row row-cols-1 row-cols-md-2">
     <div class="col mb-4">
       <div class="card">
@@ -12,10 +14,28 @@
         <div class="card-body">
           <h5 class="card-title">Favorites</h5>
           <p class="card-text">Here you can access easly your favorite courses, you juste have to add them to your favorites and then by a simple click you have your courses ! </p>
-          <a href="#" class="btn btn-primary">Go to my favorites</a>
+          <a href="/favorite_list" class="btn btn-primary">Go to my favorites</a>
         </div>
       </div>
     </div>
+    {{/authen_student}}
+
+    {{#authen_teacher}}
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col mb-4">
+          <div class="card">
+            <img src="https://st2.depositphotos.com/2586633/10219/v/950/depositphotos_102194092-stock-illustration-books-vector-illustrator-stack-of.jpg" class="card-img-top" alt="..." width="890" height="220">
+            <div class="card-body">
+              <h5 class="card-title">My Courses</h5>
+              <p class="card-text">Here you can access easly your courses that you added, you juste have to add them in courses list  and then by a simple click you have your courses ! </p>
+              <a href="/favorite_list" class="btn btn-primary">Go to my courses</a>
+            </div>
+          </div>
+        </div>
+
+
+    {{/authen_teacher}}
+
     <div class="col mb-4">
       <div class="card">
         <img src="https://justfreewpthemes.com/wp-content/uploads/2019/03/WordPress-List-plugin.jpg" class="card-img-top" alt="..." width="890" height="220">
