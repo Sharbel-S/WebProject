@@ -132,6 +132,11 @@ app.get('/likers/:id' , is_authenticated, (req, res) => {
 
 });
 
+app.get('/favorite/:id' , is_authenticated, (req,res) => {
+  var favorite = model.add_to_favorite(post_data_to_likers(req));
+  res.redirect('/courses_list' );
+})
+
 
 
 
