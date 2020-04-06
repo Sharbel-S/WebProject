@@ -148,10 +148,14 @@ app.get('/favorite_list', is_authenticated, (req,res) => {
 
 app.get('/my_courses' , is_authenticated , (req, res ) => {
   var my_courses = model.get_my_courses(req.session.teacher_name)
-  console.log(my_courses);
   res.render('my_courses' , {list: my_courses });
 });
 
+
+app.get('/remove_favorite/:id' , is_authenticated, (req, res) => {
+  model.remove_from_favorite(req.params.id);
+  res.redirect('/courses_list')
+});
 
 
 //POST methodes

@@ -98,3 +98,9 @@ exports.get_my_courses = function(name) {
   var my_courses_list = db.prepare('SELECT * FROM courses WHERE teacher = ?').all(name);
   return my_courses_list;
 }
+
+exports.remove_from_favorite = function(id){
+  console.log(id);
+  db.prepare('DELETE FROM favorite WHERE course_id = ?').run(id);
+
+}
