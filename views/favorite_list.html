@@ -1,0 +1,36 @@
+{{> header}}
+
+<body>
+    <form class="form-inline my-2 my-lg-0" action="/search">
+      <input class="form-control mr-sm-4" type="text" placeholder="Search by subject, title or teacher" name="query" aria-label="Search" value="{{query}}">
+      <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">
+    </form> <br> <a href="/favorite_list" class="btn btn-primary mr-2">All courses</a>
+  
+  
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Title</th>
+            <th scope="col">Teacher</th>
+            <th scope="col"> Description </th>
+            <th>     </th>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#list}}
+          <tr>
+            <th scope="row"> {{course_id}} </th>
+            <td>  {{course_subject}}  </td>
+            <td>{{course_title}}</td>
+            <td> {{course_teacher}} </td>
+            <td>  <a class="btn btn-link" href="/read/{{course_id}}"> More details</a>  </td>
+
+          </tr>
+          {{/list}}
+        </tbody>
+      </table>
+  </div>
+  
