@@ -97,9 +97,9 @@ app.get('/delete/:id',is_authenticated ,(req,res) => {
 });
 
 app.get('/read/:id', is_authenticated,(req,res) => {
-  var id = model.course_id(req.params.id);
+  var id = model.course_id(req.params.id);   //changer le nom de la fontion 
   var likers = model.likers_number(req.params.id);
-  var result =finalResults(id, likers);
+  var result = finalResults(id, likers);
   res.render('read', result );
 });
 
@@ -133,11 +133,24 @@ app.get('/likers/:id' , is_authenticated, (req, res) => {
 });
 
 app.get('/favorite/:id' , is_authenticated, (req,res) => {
-  var favorite = model.add_to_favorite(post_data_to_likers(req));
+  console.log("id " + req.params.id);
+  var results = model.course_id(req.params.id);
+  console.log(results);
+  model.add_to_favorite(post_data_to_favorite(req, results));
   res.redirect('/courses_list' );
 })
 
+app.get('/favorite_list', is_authenticated, (req,res) => {
+  var favorite_list = model.get_favorite_list(req.session.student_name);
+  res.render('favorite_list', {list: favorite_list})
 
+});
+
+app.get('/my_courses' , is_authenticated , (req, res ) => {
+  var my_courses = model.get_my_courses(req.session.teacher_name)
+  console.log(my_courses);
+  res.render('my_courses' , {list: my_courses });
+});
 
 
 
@@ -221,7 +234,7 @@ function post_data_to_course(req) {
   return {
     subject: req.body.subject,
     title: req.body.title, 
-    teacher: req.body.teacher,
+    teacher: req.session.teacher_name,
     description: req.body.description,
   };
 }
@@ -233,6 +246,16 @@ function post_data_to_likers(req) {
     course_id: req.params.id,
   };
   
+}
+
+function post_data_to_favorite(req ,results){
+  return {
+  name: req.session.student_name,
+  course_id: results.id,
+  course_subject: results.subject,
+  course_title: results.title,
+  course_teacher: results.teacher,
+  }
 }
 
 function finalResults(id, likers) {

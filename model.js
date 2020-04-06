@@ -81,5 +81,20 @@ exports.get_likers_list = function(id){
 }
 
 exports.add_to_favorite = function(results){
-  db.prepare('INSERT INTO favorite (name, course_id) VALUES (@name, @course_id)').run(results);
+  db.prepare('INSERT INTO favorite (name, course_id ,course_subject ,course_title,course_teacher ) VALUES (@name, @course_id, @course_subject, @course_title, @course_teacher)').run(results);
+}
+
+exports.get_favorite_list = function(student_name){
+  var course_id = db.prepare('SELECt DISTINCT course_id, course_subject , course_title, course_teacher  FROM favorite WHERE name = ?').all(student_name);
+
+
+  //console.log(course_id);
+  //var favorite_list = db.prepare('SELECT *  FROM courses WHERE id = ?').get(course_id[0]);
+  return course_id;
+}
+
+
+exports.get_my_courses = function(name) {
+  var my_courses_list = db.prepare('SELECT * FROM courses WHERE teacher = ?').all(name);
+  return my_courses_list;
 }
