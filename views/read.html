@@ -3,7 +3,13 @@
 
 
 
-<p>  {{likers}} <a href="/likers/{{id}}"> Student/s</a> liked this course </p>
+<p>  {{likers}} <a href="/likers/{{id}}"> Student/s</a> liked this course </p> 
+
+
+{{#authen_student}}
+<a class="btn btn-sm btn-danger" href="/favorite/{{id}}"> Add to favorite </a> 
+{{/authen_student}}
+
 
   <div class="row row-cols-1 row-cols-sm-2">
     <div class="col">
@@ -21,3 +27,6 @@
     </ol>
     </div>
   </div>
+
+
+  
