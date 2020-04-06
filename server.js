@@ -135,7 +135,6 @@ app.get('/likers/:id' , is_authenticated, (req, res) => {
 app.get('/favorite/:id' , is_authenticated, (req,res) => {
   console.log("id " + req.params.id);
   var results = model.course_id(req.params.id);
-  console.log(results);
   model.add_to_favorite(post_data_to_favorite(req, results));
   res.redirect('/courses_list' );
 })
@@ -187,13 +186,16 @@ app.post('/loginTeacher' , (req, res)=> {
 
 app.post('/new_student_user',(req,res)=> {
   req.session.student_user = model.new_student_user(req.body.name, req.body.password);
-  res.redirect('/test');
+  req.session.student_name = req.body.name;
+  res.redirect('/principal_page');
 });
 
 
 app.post('/new_teacher_user',(req,res)=> {
   req.session.teacher_user = model.new_teacher_user(req.body.name, req.body.password);
-  res.redirect('/test');
+  req.session.teacher_name = req.body.name;
+
+  res.redirect('/principal_page');
 });
 
 

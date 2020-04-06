@@ -100,7 +100,6 @@ exports.get_my_courses = function(name) {
 }
 
 exports.remove_from_favorite = function(id){
-  console.log(id);
   db.prepare('DELETE FROM favorite WHERE course_id = ?').run(id);
 
 }
