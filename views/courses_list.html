@@ -20,9 +20,6 @@
           <th>     </th>
           {{/authen_student}}
 
-          {{#authen_teacher}}
-          <th>    <a class="btn btn-sm btn-success" href="/add"> Add a course</a> 
-          {{/authen_teacher}}
 
           </th>
         </tr>
@@ -43,10 +40,7 @@
 
           </td>
           {{/authen_student}}
-          {{#authen_teacher}}
-          <th>     <a class="btn btn-sm btn-warning" href="/edit/{{id}}">Edit</a>
-            <a class="btn btn-sm btn-danger" href="/delete/{{id}}">Delete</a>  </th>
-          {{/authen_teacher}}
+
         </tr>
         {{/list}}
       </tbody>
