@@ -79,3 +79,7 @@ exports.get_likers_list = function(id){
   var list = db.prepare('SELECT DISTINCT name FROM likers WHERE course_id = ?').all(id);
   return list;
 }
+
+exports.add_to_favorite = function(results){
+  db.prepare('INSERT INTO favorite (name, course_id) VALUES (@name, @course_id)').run(results);
+}
