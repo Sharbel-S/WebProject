@@ -164,24 +164,41 @@ app.get('/change_name', is_authenticated, (req,res) => {
   res.render('change_name');
 });
 
+app.get('/delete_account', is_authenticated, (req, res) => {
+  res.render('delete_account');
+});
+
 //POST methodes
+
+app.post('/delete_account', (req,res) => {
+  if(req.session.student_name === undefined) {
+    model.delete_teacher_account(req.session.teacher_name);
+    res.redirect('/')
+  }
+  else{
+    model.delete_student_account(req.session.student_name);
+    res.redirect('/')
+
+  }
+});
 
 app.post('/change_name', (req,res) => {
   if(req.session.student_name === undefined) {
     var valide_name_password = model.login_teacher(req.body.name, req.body.password);
     if (valide_name_password === -1){
-      res.redirect('/loginError');
+      res.redirect('/change_name');
        }
        else {
          model.change_teacher_name(req.body.name, req.body.password, req.body.new_name);
          req.session.student_name = req.body.name;
          res.redirect('/principal_page');
+         //TODO  display a message when success
        } 
   }
   else{
     var valide_name_password = model.login_student(req.body.name, req.body.password);
     if (valide_name_password === -1){
-      res.redirect('/loginError');
+      res.redirect('/change_name');
        }
        else {
          model.change_student_name(req.body.name, req.body.password, req.body.new_name);
