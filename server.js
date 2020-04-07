@@ -168,6 +168,10 @@ app.get('/delete_account', is_authenticated, (req, res) => {
   res.render('delete_account');
 });
 
+app.get('/change_password', is_authenticated, (req,res) => {
+  res.render('change_password');
+});
+
 //POST methodes
 
 app.post('/delete_account', (req,res) => {
