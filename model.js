@@ -103,3 +103,11 @@ exports.remove_from_favorite = function(id){
   db.prepare('DELETE FROM favorite WHERE course_id = ?').run(id);
 
 }
+
+exports.change_student_name = function(name, password, new_name){
+  db.prepare("UPDATE studentusers SET name = ? WHERE name = ? AND password = ? ").run(new_name, name,password);
+}
+
+exports.change_teacher_name = function(name, password, new_name){
+  db.prepare("UPDATE teacherusers SET name = ? WHERE name = ? AND password = ? ").run(new_name, name,password);
+}

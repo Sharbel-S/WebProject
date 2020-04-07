@@ -156,8 +156,43 @@ app.get('/remove_favorite/:id' , is_authenticated, (req, res) => {
   res.redirect('/courses_list')
 });
 
+app.get('/my_profile' , is_authenticated, (req,res) => {
+  res.render('my_profile');
+})
+
+app.get('/change_name', is_authenticated, (req,res) => {
+  res.render('change_name');
+});
 
 //POST methodes
+
+app.post('/change_name', (req,res) => {
+  if(req.session.student_name === undefined) {
+    var valide_name_password = model.login_teacher(req.body.name, req.body.password);
+    if (valide_name_password === -1){
+      res.redirect('/loginError');
+       }
+       else {
+         model.change_teacher_name(req.body.name, req.body.password, req.body.new_name);
+         req.session.student_name = req.body.name;
+         res.redirect('/principal_page');
+       } 
+  }
+  else{
+    var valide_name_password = model.login_student(req.body.name, req.body.password);
+    if (valide_name_password === -1){
+      res.redirect('/loginError');
+       }
+       else {
+         model.change_student_name(req.body.name, req.body.password, req.body.new_name);
+         req.session.student_name = req.body.name;
+         res.redirect('/principal_page');
+       } 
+  }
+});
+
+
+
 
 app.post('/loginStudent',(req,res)=> {
   var id = model.login_student(req.body.name, req.body.password);
