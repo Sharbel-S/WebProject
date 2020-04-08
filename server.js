@@ -174,6 +174,34 @@ app.get('/change_password', is_authenticated, (req,res) => {
 
 //POST methodes
 
+app.post('/change_password', is_authenticated, (req, res) => {
+  if(req.session.student_name === undefined) {
+    var valide_name_password = model.login_teacher(req.body.name, req.body.password);
+    if (valide_name_password === -1 || !isSamePassword(req.body.new_password, req.body.new_password_conf)){
+      res.redirect('/change_password');
+       }
+       else {
+          model.change_teacher_password(req.body.name, req.body.password, req.body.new_password);
+          //req.session.student_name = req.body.name;
+          res.redirect('/principal_page');
+          //TODO  display a message when success
+         }
+
+       } 
+  else{
+    var valide_name_password = model.login_student(req.body.name, req.body.password);
+    if (valide_name_password === -1 || !isSamePassword(req.body.new_password, req.body.new_password_conf)){
+      res.redirect('/change_password');
+       }
+       else {
+         model.change_student_password(req.body.name, req.body.password, req.body.new_password);
+         //req.session.student_name = req.body.name;
+         res.redirect('/principal_page');
+       } 
+  }
+});
+
+
 app.post('/delete_account', (req,res) => {
   if(req.session.student_name === undefined) {
     model.delete_teacher_account(req.session.teacher_name);
@@ -330,6 +358,15 @@ function finalResults(id, likers) {
     likers: likers.likers,
 
   };
+}
+
+function isSamePassword(new_password, password_confirmation){
+  if(new_password === password_confirmation){
+    return true;
+  } 
+  else{
+    return false;
+  }
 }
 
 app.listen(3000, () => console.log('listening on http://localhost:3000'));
