@@ -120,3 +120,11 @@ exports.delete_student_account = function(name){
   db.prepare('DELETE FROM studentusers WHERE name = ?').run(name);
 
 }
+
+exports.change_teacher_password = function(name, password, new_password){
+  db.prepare("UPDATE teacherusers SET password = ? WHERE name = ? AND password = ?").run(new_password, name ,password);
+}
+
+exports.change_student_password = function(name, password, new_password){
+  db.prepare("UPDATE studentusers SET password = ? WHERE name = ? AND password = ?").run(new_password, name ,password);
+}
