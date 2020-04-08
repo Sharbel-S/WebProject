@@ -128,3 +128,13 @@ exports.change_teacher_password = function(name, password, new_password){
 exports.change_student_password = function(name, password, new_password){
   db.prepare("UPDATE studentusers SET password = ? WHERE name = ? AND password = ?").run(new_password, name ,password);
 }
+
+exports.test_if_name_already_exist_for_student = function(name){
+  var name = db.prepare('SELECT name FROM studentusers WHERE name=?').get([name]);
+  if (name != null) return -1;
+}
+
+exports.test_if_name_already_exist_for_teacher = function(name){
+  var name = db.prepare('SELECT name FROM teacherusers WHERE name=?').get([name]);
+  if (name != null) return -1;
+}

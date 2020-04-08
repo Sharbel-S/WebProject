@@ -172,6 +172,10 @@ app.get('/change_password', is_authenticated, (req,res) => {
   res.render('change_password');
 });
 
+app.get('/name_already_used', (req, res) => {
+  res.render('name_already_used');
+});
+
 //POST methodes
 
 app.post('/change_password', is_authenticated, (req, res) => {
@@ -269,17 +273,28 @@ app.post('/loginTeacher' , (req, res)=> {
 });
 
 app.post('/new_student_user',(req,res)=> {
-  req.session.student_user = model.new_student_user(req.body.name, req.body.password);
-  req.session.student_name = req.body.name;
-  res.redirect('/principal_page');
+  var name = model.test_if_name_already_exist_for_student(req.body.name);
+  if(name === -1){
+    res.redirect('name_already_used');
+  }
+  else{
+    req.session.student_user = model.new_student_user(req.body.name, req.body.password);
+    req.session.student_name = req.body.name;
+    res.redirect('/principal_page');  
+  }
 });
 
 
 app.post('/new_teacher_user',(req,res)=> {
-  req.session.teacher_user = model.new_teacher_user(req.body.name, req.body.password);
-  req.session.teacher_name = req.body.name;
-
-  res.redirect('/principal_page');
+  var name  = model.test_if_name_already_exist_for_teacher(req.body.name);
+  if(name === -1){
+    res.redirect('name_already_used');
+  }
+  else{
+    req.session.teacher_user = model.new_teacher_user(req.body.name, req.body.password);
+    req.session.teacher_name = req.body.name;
+    res.redirect('/principal_page');
+  }
 });
 
 
