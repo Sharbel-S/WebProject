@@ -3,32 +3,59 @@
 
 
 
-<p>  {{likers}} <a href="/likers/{{id}}"> Student/s</a> liked this course </p> 
 
 
 {{#authen_student}}
-<a class="btn btn-sm btn-success" href="/favorite/{{id}}"> Add to favorite </a> 
-<a class="btn btn-sm btn-danger" href="/remove_favorite/{{id}}"> remove from favorite </a> 
 
 {{/authen_student}}
 
 
-  <div class="row row-cols-1 row-cols-sm-2">
-    <div class="col">
-    <h1>{{title}}</h1>
+<div class="row no-gutters">
+  <div class="col-sm-6 col-md-8">  <a class="btn btn-sm btn-success" href="/favorite/{{id}}" onclick="alertFunction()"> Add to favorite </a> 
+    <a class="btn btn-sm btn-danger" href="/remove_favorite/{{id}}" onclick="alertFunction2()"> remove from favorite </a> 
+      </div>
 
-    <h4>writen by : {{teacher}}</h4>
-    <h4>Subject : {{subject}}</h4>
+  <div class="col-6 col-md-4"> <p>  {{likers}} <a href="/likers/{{id}}"> Student/s</a> liked this course </p> 
+  </div>
+</div>
+
+
+
+
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+     </div>
+     <span class="border border-primary">
+      <div class="col-md-auto">
+        <h1>{{title}}</h1>
+      </div>
+
+     </span>
+
+
+    <div class="col col-lg-2">
+     </div>
+  </div>
+  <div class="row">
+    <div class="col col-lg-2">
+      <h6>writen by : {{teacher}}</h6>
+      <h6>Subject : {{subject}}</h6>
     </div>
   </div>
-  <div class="row pt-3">
-    <div class="col">
-        description :
-    <ol>
-        <li>{{description}}</li>
-    </ol>
-    </div>
-  </div>
+</div>
 
 
+<br>
+
+        <p>{{description}}</p>
+
+  <script>
+    function alertFunction() {
+      alert("The Course has been added successfully to your favorites");
+    }
+    function alertFunction2(){
+      alert("The Course has been removed successfully from your favorites");
+    }
+    </script>
   
