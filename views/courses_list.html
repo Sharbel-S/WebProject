@@ -7,7 +7,7 @@
     <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">
   </form> <br> <a href="/courses_list" class="btn btn-primary mr-2">All courses</a>
 
-
+<div>
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -34,8 +34,8 @@
           <td>  <a class="btn btn-link" href="/read/{{id}}"> More details</a>  </td>
           {{#authen_student}}
           <td>            
-             <a class="btn btn-primary" href="/like/{{id}}" >Like</a>
-             <a class="btn btn-warning" href="/unlike/{{id}}" >Unlike</a>
+             <a class="btn btn-primary" href="/like/{{id}}" onclick="alertFunction()" >Like</a>
+             <a class="btn btn-warning" href="/unlike/{{id}}" onclick="alertFunction2()" >Unlike</a>
 
 
           </td>
@@ -50,3 +50,13 @@
 </body>
 
 </html>
+
+
+<script>
+  function alertFunction() {
+    alert("Liked ✅");
+  }
+  function alertFunction2(){
+    alert("Unliked ❎");
+  }
+  </script>
