@@ -1,4 +1,53 @@
-{{> courses_list}}
+{{> header}}
 
 
+<div>
+    <h4> Results found : </h4><br>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Title</th>
+          <th scope="col">Teacher</th>
+          <th scope="col"> Description </th>
+          {{#authen_student}}
+          <th>     </th>
+          {{/authen_student}}
 
+
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#list}}
+        <tr>
+          <th scope="row"> {{id}} </th>
+          <td>  {{subject}}  </td>
+          <td>{{title}}</td>
+          <td> {{teacher}} </td>
+          <td>  <a class="btn btn-link" href="/read/{{id}}"> More details</a>  </td>
+          {{#authen_student}}
+          <td>            
+             <a class="btn btn-primary" href="/like/{{id}}" onclick="alertFunction()" >Like</a>
+             <a class="btn btn-warning" href="/unlike/{{id}}" onclick="alertFunction2()" >Unlike</a>
+
+
+          </td>
+          {{/authen_student}}
+
+        </tr>
+        {{/list}}
+      </tbody>
+    </table>
+</div>
+
+
+<script>
+    function alertFunction() {
+      alert("Liked ✅");
+    }
+    function alertFunction2(){
+      alert("Unliked ❎");
+    }
+    </script>
