@@ -6,8 +6,6 @@
       <input class="form-control mr-sm-4" type="text" placeholder="Search by subject, title or teacher" name="query" aria-label="Search" value="{{query}}">
       <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">
     </form> <br> <a href="/courses_list" class="btn btn-primary mr-2">All courses</a>
-  
-  
       <table class="table">
         <thead class="thead-dark">
           <tr>
@@ -16,12 +14,9 @@
             <th scope="col">Title</th>
             <th scope="col">Teacher</th>
             <th scope="col"> Description </th>
-
-  
             {{#authen_teacher}}
             <th>    <a class="btn btn-sm btn-success" href="/add"> Add a course</a> 
             {{/authen_teacher}}
-  
             </th>
           </tr>
         </thead>
