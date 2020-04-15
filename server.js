@@ -23,86 +23,93 @@ app.use(cookieSession({
   }));
 
 
+/*
+* This POST method verify the name and password entered by the user,
+* if name or the password are incorrect, the method will show a flash explaining
+* else it will redirect the user to the principal page
+*/
+app.post('/loginStudent',(req,res)=> {
+  var id = model.login_student(req.body.name, req.body.password);
+  if (id === -1){
+    req.flash('info', 'Incorect username or password');
+    res.redirect('/loginStudent');
+  }
+  else {
+    req.session.student_user = id;
+    req.session.student_name = req.body.name;
+    res.redirect('/principal_page');
+  } 
+});
+ 
+/*
+* Same method above but with the teachers
+*/
+app.post('/loginTeacher' , (req, res)=> {
+  var id = model.login_teacher(req.body.name, req.body.password);
+  if (id === -1){
+    req.flash('info', 'Incorect username or password');
+    res.redirect('/loginTeacher');
+  }
+  else{
+    req.session.teacher_user = id;
+    req.session.teacher_name = req.body.name;
+    res.redirect('/principal_page');
+  }
+});
 
-  app.post('/loginStudent',(req,res)=> {
-    var id = model.login_student(req.body.name, req.body.password);
-    if (id === -1){
-      req.flash('info', 'Incorect username or password');
-      res.redirect('/loginStudent');
-    }
-    else {
-      req.session.student_user = id;
-      req.session.student_name = req.body.name;
-      res.redirect('/principal_page');
-    } 
-  });
+/*
+* This POST method will verify that the name the user is trying to 
+* sign up with isn't already used by someone else, if this happen,
+* a flash message will apear explaining the problem,
+* if the name isn't used yet, the user will be redirected
+* to the principal page
+*/
+app.post('/new_student_user',(req,res)=> {
+  var name = model.test_if_name_already_exist_for_student(req.body.name);
+  if(name === -1){
+    // TODO : Change it to a flash message
+    res.redirect('name_already_used');
+  }
+  else{
+    req.session.student_user = model.new_student_user(req.body.name, req.body.password);
+    req.session.student_name = req.body.name;
+    res.redirect('/principal_page');  
+  }
+});
   
-  app.post('/loginTeacher' , (req, res)=> {
-    var id = model.login_teacher(req.body.name, req.body.password);
-    if (id === -1){
-      req.flash('info', 'Incorect username or password');
-      res.redirect('/loginTeacher');
-    }
-    else{
-      req.session.teacher_user = id;
-      req.session.teacher_name = req.body.name;
-      res.redirect('/principal_page');
-    }
-  
-  });
-  
-  app.post('/new_student_user',(req,res)=> {
-    var name = model.test_if_name_already_exist_for_student(req.body.name);
-    if(name === -1){
-      res.redirect('name_already_used');
-    }
-    else{
-      req.session.student_user = model.new_student_user(req.body.name, req.body.password);
-      req.session.student_name = req.body.name;
-      res.redirect('/principal_page');  
-    }
-  });
-  
-  
-  app.post('/new_teacher_user',(req,res)=> {
-    var name  = model.test_if_name_already_exist_for_teacher(req.body.name);
-    if(name === -1){
-      res.redirect('name_already_used');
-    }
-    else{
-      req.session.teacher_user = model.new_teacher_user(req.body.name, req.body.password);
-      req.session.teacher_name = req.body.name;
-      res.redirect('/principal_page');
-    }
-  });
-  
-  
-
+/*
+* Same method above but with the teachers
+*/
+app.post('/new_teacher_user',(req,res)=> {
+  var name  = model.test_if_name_already_exist_for_teacher(req.body.name);
+  if(name === -1){
+    res.redirect('name_already_used');
+  }
+  else{
+    req.session.teacher_user = model.new_teacher_user(req.body.name, req.body.password);
+    req.session.teacher_name = req.body.name;
+    res.redirect('/principal_page');
+  }
+});
 
 
 // GET methodes
-
-
 
 app.get('/'  ,(req,res) => {
     res.render('index');
 });
 
-
 app.get('/signInChoice', (req,res) =>{
   res.render('signInChoice');
-
 });
 
 app.get('/loginStudent' ,(req,res)=> {
   res.render('loginStudent');
 });
 
-
 app.get('/loginTeacher',(req,res)=>{
   res.render('loginTeacher');
 });
-
 
 app.get('/signUpchoice', (req,res)=>{
   res.render('signUpchoice');
@@ -116,21 +123,17 @@ app.get('/new_teacher_user',(req,res) =>{
   res.render('new_teacher_user');
 });
 
-
-
 app.get('/logout', (req, res) => {
   req.session = null;
   res.redirect('/');
 });
 
-
 app.get('/about',(req,res) => {
   res.render('about');
-
 });
 
+// Applying the middleware to the routes that needs authentication
 app.use(is_authenticated);
-
 
 
 app.get('/principal_page' ,(req,res) =>{
@@ -142,27 +145,23 @@ app.get('/principal_page' ,(req,res) =>{
   }
 });
 
-
-
 app.get('/courses_list' ,(req,res) => {
   var results = model.courses_list();
   res.render('courses_list',  {list:results} );
 });
 
-
 app.get('/edit/:id' ,(req,res)=> {
-  var id = model.course_id(req.params.id);
+  var id = model.get_course_information_from_id(req.params.id);
   res.render('edit-course-form', id )
 });
 
 app.get('/delete/:id' ,(req,res) => {
-  var id = model.course_id(req.params.id);
+  var id = model.get_course_information_from_id(req.params.id);
   res.render('delete', id)
 });
 
 app.get('/read/:id', (req,res) => {
-  console.log("qunad je rentre" + res.locals.favorite_add_button);
-  var id = model.course_id(req.params.id);   //changer le nom de la fontion 
+  var id = model.get_course_information_from_id(req.params.id);   //changer le nom de la fontion 
   var likers = model.likers_number(req.params.id);
   var result = finalResults(id, likers);
   res.render('read', result );
@@ -177,7 +176,7 @@ app.get('/add',(req,res) => {
  });
 
  app.get('/search', (req,res) => {
-  var results = model.search(req.query.query);
+  var results = model.search_course(req.query.query);
   res.render('search',  {list:results} );
 });
 
@@ -199,7 +198,7 @@ app.get('/likers/:id' , (req, res) => {
 
 app.get('/favorite/:id' , (req,res) => {
   console.log("id " + req.params.id);
-  var results = model.course_id(req.params.id);
+  var results = model.get_course_information_from_id(req.params.id);
   model.add_to_favorite(post_data_to_favorite(req, results));
   res.redirect('/courses_list' );
 })
@@ -207,7 +206,6 @@ app.get('/favorite/:id' , (req,res) => {
 app.get('/favorite_list' ,(req,res) => {
   var favorite_list = model.get_favorite_list(req.session.student_name);
   res.render('favorite_list', {list: favorite_list})
-
 });
 
 app.get('/my_courses'  , (req, res ) => {
@@ -237,9 +235,7 @@ app.get('/change_password', (req,res) => {
   res.render('change_password');
 });
 
-app.get('/name_already_used' , (req, res) => {
-  res.render('name_already_used');
-});
+
 
 //POST methodes
 
@@ -282,10 +278,6 @@ app.post('/change_password', is_authenticated, (req, res) => {
   }
 });
 
-
-
-
-
 app.post('/delete_account', (req,res) => {
   if(req.session.student_name === undefined) {
     model.delete_teacher_account(req.session.teacher_name);
@@ -294,12 +286,8 @@ app.post('/delete_account', (req,res) => {
   else{
     model.delete_student_account(req.session.student_name);
     res.redirect('/')
-
   }
 });
-
-
-
 
 app.post('/change_name', (req,res) => {
   // if the name of student is undefined, it means that the user is a teacher
@@ -341,33 +329,27 @@ app.post('/change_name', (req,res) => {
   }
 });
 
-
-
 app.post('/edit/:id', (req,res) => {
   const id = req.params.id;
   var test = post_data_to_course(req);
-  model.update(id,test );
+  model.update_course(id,test );
   res.redirect('/courses_list', );
-
 });
-
 
 app.post("/delete/:id", (req, res) => {
   const id = req.params.id;
-  model.delete(id);
+  model.delete_course(id);
   res.redirect('/courses_list');
 });
 
 app.post('/add',(req,res) => {
-  var id = model.create(post_data_to_course(req));
+  var id = model.create_course(post_data_to_course(req));
   res.redirect('/add_confirmation');
 });
 
 
 
 // Functions
-
-
 
 
 function is_authenticated(req, res, next) {
@@ -394,13 +376,11 @@ function post_data_to_course(req) {
   };
 }
 
-
 function post_data_to_likers(req) {
   return {
     name: req.session.student_name,
     course_id: req.params.id,
-  };
-  
+  }; 
 }
 
 function post_data_to_favorite(req ,results){
@@ -421,7 +401,6 @@ function finalResults(id, likers) {
     teacher: id.teacher,
     description: id.description,
     likers: likers.likers,
-
   };
 }
 
@@ -431,7 +410,6 @@ function isSamePassword( new_password, password_confirmation){
   } 
   else{
     return false;
-  
   }
 }
 
