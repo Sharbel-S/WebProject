@@ -4,63 +4,92 @@ const Sqlite = require('better-sqlite3');
 
 let db = new Sqlite('db.sqlite');
 
-
+/*
+* This method will verify if the name and password exist in the datbase of students and return his id
+*/
 exports.login_student = (name, password) => {
     var id = db.prepare('SELECT id FROM studentusers WHERE name=? AND password=?').get([name, password]);
     if (id == null) return -1;
     return id;
   }
 
-  exports.login_teacher = (name, password) => {
-    var id = db.prepare('SELECT id FROM teacherusers WHERE name=? AND password=?').get([name, password]);
-    if (id == null) return -1;
-    return id;
-  }
+/*
+* Same method above but with the database of teachers
+*/
+exports.login_teacher = (name, password) => {
+  var id = db.prepare('SELECT id FROM teacherusers WHERE name=? AND password=?').get([name, password]);
+  if (id == null) return -1;
+  return id;
+}
 
-
+/*
+* This method will create a studentt acocunt in the database of students and return his id
+*/
 exports.new_student_user = function(name, password) {
     var insertUser = db.prepare('INSERT INTO studentusers (name, password) VALUES (?, ?)');
     var id = insertUser.run([name, password]).lastInsertRowid;
     return id;
   }
 
-  exports.new_teacher_user = function(name, password) {
-    var insertUser = db.prepare('INSERT INTO teacherusers (name, password) VALUES (?, ?)');
-    var id = insertUser.run([name, password]).lastInsertRowid;
-    return id;
-  }
-
-  exports.courses_list = function(){
-    var title = db.prepare('SELECT id, subject,title, teacher FROM courses ').all();
-    return title;
-  }
-    
-  exports.course_id = function(id){
-    var id = db.prepare('SELECT * FROM courses WHERE id = ?').get([id]);
-    if (id == null) return -1;
-    return id
-  }
-
-  exports.update = function(id ,courses){
-    const result = db.prepare("UPDATE courses SET subject = @subject, title = @title, teacher = @teacher, description = @description WHERE (id = ?)").run(courses, id);
-   // var result = db.prepare('UPDATE courses SET subject = @subject, title = @title, teacher = @teacher, description = @description WHERE id = ?').run(course, id);
-    return result;
-  }
-
-  exports.delete = function(id) {
-    db.prepare('DELETE FROM courses WHERE id = ?').run(id);
-  }
-
-  exports.create = function(courses){
-    var id = db.prepare('INSERT INTO courses (subject, title, teacher, description) VALUES (@subject, @title, @teacher, @description)').run(courses);
-  }
-
-exports.search = function(query){
-  query = query || "";
-  var sj = db.prepare('SELECT * FROM courses WHERE subject LIKE ? OR title LIKE ? OR teacher LIKE ?').all([query, query, query]);
-  return sj;
+/*
+* Same method above but with the database of teachers
+*/
+exports.new_teacher_user = function(name, password) {
+  var insertUser = db.prepare('INSERT INTO teacherusers (name, password) VALUES (?, ?)');
+  var id = insertUser.run([name, password]).lastInsertRowid;
+  return id;
 }
 
+/*
+* This method send the list of courses in the database of courses
+*/
+exports.courses_list = function(){
+  var courses_list = db.prepare('SELECT id, subject,title, teacher FROM courses ').all();
+  return courses_list;
+}
+
+/*
+* This method send the informations of a course from his id, it return -1 if the course dosent exsict
+*/
+exports.get_course_information_from_id = function(id){
+  var course_information = db.prepare('SELECT * FROM courses WHERE id = ?').get([id]);
+  if (course_information == null) return -1;
+  return course_information;
+}
+
+/*
+* This method update a course from his id
+*/
+exports.update_course = function(id ,courses){
+  db.prepare("UPDATE courses SET subject = @subject, title = @title, teacher = @teacher, description = @description WHERE (id = ?)").run(courses, id);
+}
+
+/*
+* This method remove a course from database 
+*/
+exports.delete_course = function(id) {
+  db.prepare('DELETE FROM courses WHERE id = ?').run(id);
+}
+
+/*
+* This method create a course and add it to database 
+*/
+exports.create_course = function(courses){
+  db.prepare('INSERT INTO courses (subject, title, teacher, description) VALUES (@subject, @title, @teacher, @description)').run(courses);
+}
+
+/*
+* This method search for a course in title, subject and teacher 
+*/
+exports.search_course = function(query){
+  query = query || "";
+  var results = db.prepare('SELECT * FROM courses WHERE subject LIKE ? OR title LIKE ? OR teacher LIKE ?').all([query, query, query]);
+  return results;
+}
+
+/*
+* 
+*/
 exports.add_like = function(results){
   db.prepare('INSERT INTO likers (name, course_id) VALUES (@name, @course_id)').run(results);
 }
@@ -71,8 +100,8 @@ exports.remove_like = function(results){
 }
 
 exports.likers_number = function(id){
-  var like =  db.prepare('SELECT COUNT(DISTINCT name) as likers FROM likers WHERE course_id = ?').get([id]);
-  return like;
+  var likers_number =  db.prepare('SELECT COUNT(DISTINCT name) as likers FROM likers WHERE course_id = ?').get([id]);
+  return likers_number;
 }
 
 exports.get_likers_list = function(id){
@@ -86,10 +115,6 @@ exports.add_to_favorite = function(results){
 
 exports.get_favorite_list = function(student_name){
   var course_id = db.prepare('SELECt DISTINCT course_id, course_subject , course_title, course_teacher  FROM favorite WHERE name = ?').all(student_name);
-
-
-  //console.log(course_id);
-  //var favorite_list = db.prepare('SELECT *  FROM courses WHERE id = ?').get(course_id[0]);
   return course_id;
 }
 
