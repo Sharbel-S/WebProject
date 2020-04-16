@@ -67,8 +67,8 @@ app.post('/loginTeacher' , (req, res)=> {
 app.post('/new_student_user',(req,res)=> {
   var name = model.test_if_name_already_exist_for_student(req.body.name);
   if(name === -1){
-    // TODO : Change it to a flash message
-    res.redirect('name_already_used');
+    req.flash('info', 'The name you chosen is already used');
+    res.redirect('/new_student_user');
   }
   else{
     req.session.student_user = model.new_student_user(req.body.name, req.body.password);
@@ -151,19 +151,19 @@ app.get('/courses_list' ,(req,res) => {
 });
 
 app.get('/edit/:id' ,(req,res)=> {
-  var id = model.get_course_information_from_id(req.params.id);
-  res.render('edit-course-form', id )
+  var courses_info = model.get_course_information_from_id(req.params.id);
+  res.render('edit-course-form', courses_info )
 });
 
 app.get('/delete/:id' ,(req,res) => {
-  var id = model.get_course_information_from_id(req.params.id);
-  res.render('delete', id)
+  var courses_info = model.get_course_information_from_id(req.params.id);
+  res.render('delete', courses_info)
 });
 
 app.get('/read/:id', (req,res) => {
-  var id = model.get_course_information_from_id(req.params.id);   //changer le nom de la fontion 
+  var courses_info = model.get_course_information_from_id(req.params.id);  
   var likers = model.likers_number(req.params.id);
-  var result = finalResults(id, likers);
+  var result = finalResults(courses_info, likers);
   res.render('read', result );
 });
 
@@ -181,12 +181,12 @@ app.get('/add',(req,res) => {
 });
 
 app.get('/like/:id' , (req, res) => {
-    model.add_like(post_data_to_likers(req));
+    model.add_like(get_data_likers(req));
     res.redirect('/courses_list');
 });
 
 app.get('/unlike/:id', (req,res) => {
-  model.remove_like(post_data_to_likers(req));
+  model.remove_like(get_data_likers(req));
   res.redirect('/courses_list');
 });
 
@@ -197,9 +197,8 @@ app.get('/likers/:id' , (req, res) => {
 });
 
 app.get('/favorite/:id' , (req,res) => {
-  console.log("id " + req.params.id);
-  var results = model.get_course_information_from_id(req.params.id);
-  model.add_to_favorite(post_data_to_favorite(req, results));
+  var courses_info = model.get_course_information_from_id(req.params.id);
+  model.add_to_favorite(get_data_favorites(req, courses_info));
   res.redirect('/courses_list' );
 })
 
@@ -239,6 +238,34 @@ app.get('/change_password', (req,res) => {
 
 //POST methodes
 
+
+
+/*
+* This method will check using the session if the user that want to delete his account
+* is a teacher or a studnet 
+* and then it will delte the used account
+*/
+app.post('/delete_account', (req,res) => {
+  if(req.session.student_name === undefined) {
+    model.delete_teacher_account(req.session.teacher_name);
+    res.redirect('/')
+  }
+  else{
+    model.delete_student_account(req.session.student_name);
+    res.redirect('/')
+  }
+});
+
+
+/*
+* The first thing this method do is check if the user is a teacher or a student using the session,
+* then it will test if the name and password entered by the user are valides,
+* if not, it will send a flash message expailing the error and will redirect to change password view
+* if the name and password are valide,it will test if the password and the password confirmation 
+* entered by the user are the same, if not a flash message will apear,
+* and last if everthing is correct a flash message will confirme the changes
+* Note: this method is used for both teachers and students
+*/
 app.post('/change_password', is_authenticated, (req, res) => {
   if(req.session.student_name === undefined) {
     var valide_name_password = model.login_teacher(req.body.name, req.body.password);
@@ -253,9 +280,8 @@ app.post('/change_password', is_authenticated, (req, res) => {
        }
       else {
           model.change_teacher_password(req.body.name, req.body.password, req.body.new_password);
-          //req.session.student_name = req.body.name;
           res.redirect('/principal_page');
-          //TODO  display a message when success
+          //TODO  display a flash message when success
          }
 
        } 
@@ -278,17 +304,14 @@ app.post('/change_password', is_authenticated, (req, res) => {
   }
 });
 
-app.post('/delete_account', (req,res) => {
-  if(req.session.student_name === undefined) {
-    model.delete_teacher_account(req.session.teacher_name);
-    res.redirect('/')
-  }
-  else{
-    model.delete_student_account(req.session.student_name);
-    res.redirect('/')
-  }
-});
 
+
+/*
+* This method is very similar to the POST method of change name (above)
+* the difference is instead of testing the new password, it will test if
+* the name is already used by someone else, if so, it will show a flash message
+* else, a flash message will confirme the changes
+*/
 app.post('/change_name', (req,res) => {
   // if the name of student is undefined, it means that the user is a teacher
   if(req.session.student_name === undefined) {
@@ -331,8 +354,8 @@ app.post('/change_name', (req,res) => {
 
 app.post('/edit/:id', (req,res) => {
   const id = req.params.id;
-  var test = post_data_to_course(req);
-  model.update_course(id,test );
+  var data = post_data_to_course(req);
+  model.update_course(id, data);
   res.redirect('/courses_list', );
 });
 
@@ -343,7 +366,7 @@ app.post("/delete/:id", (req, res) => {
 });
 
 app.post('/add',(req,res) => {
-  var id = model.create_course(post_data_to_course(req));
+  model.create_course(post_data_to_course(req));
   res.redirect('/add_confirmation');
 });
 
@@ -351,7 +374,11 @@ app.post('/add',(req,res) => {
 
 // Functions
 
-
+/*
+* This is a midlwear function that test if the user is connected when he want to
+* access pages that requires an authentification.
+* it works for both teachers and students
+*/
 function is_authenticated(req, res, next) {
   if(req.session.student_user !== undefined) {
     res.locals.authen_student = true;
@@ -367,6 +394,10 @@ function is_authenticated(req, res, next) {
   res.status(401).send('Authentication required');
 }
 
+/*
+* This function help us create a javascript object to use it for
+*  adding and modifying a course 
+*/
 function post_data_to_course(req) {
   return {
     subject: req.body.subject,
@@ -376,14 +407,14 @@ function post_data_to_course(req) {
   };
 }
 
-function post_data_to_likers(req) {
+function get_data_likers(req) {
   return {
     name: req.session.student_name,
     course_id: req.params.id,
   }; 
 }
 
-function post_data_to_favorite(req ,results){
+function get_data_favorites(req ,results){
   return {
   name: req.session.student_name,
   course_id: results.id,
@@ -403,6 +434,10 @@ function finalResults(id, likers) {
     likers: likers.likers,
   };
 }
+/*
+* This boolean function test if the password and confirmation password entered 
+* by the user are the same, if not, it will return false
+*/
 
 function isSamePassword( new_password, password_confirmation){
   if(new_password === password_confirmation){
