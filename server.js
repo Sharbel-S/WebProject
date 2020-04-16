@@ -172,9 +172,6 @@ app.get('/add',(req,res) => {
   res.render('add');
  })
 
- app.get('/add_confirmation',(req,res) => {
-   res.render('add_confirmation');
- });
 
  app.get('/search', (req,res) => {
   var results = model.search_course(req.query.query);
@@ -330,8 +327,8 @@ app.post('/change_name', (req,res) => {
     else {
          model.change_teacher_name(req.body.name, req.body.password, req.body.new_name);
          req.session.student_name = req.body.name;
+         req.flash('info_name', 'The name has been changed successfully');          
          res.redirect('/principal_page');
-         //TODO  display a message when success
        } 
   }
   else{
@@ -348,6 +345,7 @@ app.post('/change_name', (req,res) => {
     else {
          model.change_student_name(req.body.name, req.body.password, req.body.new_name);
          req.session.student_name = req.body.name;
+         req.flash('info_name', 'The name has been changed successfully');
          res.redirect('/principal_page');
        } 
   }
@@ -368,7 +366,8 @@ app.post("/delete/:id", (req, res) => {
 
 app.post('/add',(req,res) => {
   model.create_course(post_data_to_course(req));
-  res.redirect('/add_confirmation');
+  req.flash('info', 'The course has been added succesfuly');
+  res.redirect('/my_courses');
 });
 
 
