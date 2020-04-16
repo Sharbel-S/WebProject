@@ -67,7 +67,6 @@ app.post('/loginTeacher' , (req, res)=> {
 app.post('/new_student_user',(req,res)=> {
   var name = model.test_if_name_already_exist_for_student(req.body.name);
   if(name === -1){
-    req.flash('info', 'The name you chosen is already used');
     res.redirect('/new_student_user');
   }
   else{
