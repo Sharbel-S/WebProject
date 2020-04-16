@@ -4,6 +4,9 @@
 
 <body>
   </div>   <h1>  Welcome  {{name}} ! </h1> <br>
+  <div class="info">
+    <p style="color:green;"> {{messages.info}} </p>
+  </div>
    {{#authen_student}}
 
    <div class="row row-cols-1 row-cols-md-2">
@@ -35,6 +38,7 @@
 
     {{/authen_teacher}}
 
+
     <div class="col mb-4">
       <div class="card">
         <img src="https://justfreewpthemes.com/wp-content/uploads/2019/03/WordPress-List-plugin.jpg" class="card-img-top" alt="..." width="890" height="220">
@@ -42,6 +46,17 @@
           <h5 class="card-title">Courses list</h5>
           <p class="card-text"> Here you can have a hug list of courses, any course you search for you will find it here, yes juste click on the button and you have your list ! </p>
           <a href="/courses_list" class="btn btn-primary">Go to courses list</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col mb-4">
+      <div class="card">
+        <img src="https://d1yn1kh78jj1rr.cloudfront.net/image/thumbnail/SU-PbE1GZj3g74gvz/graphicstock-profile-icon-vector-illustration_r6gQYwokVW_thumb.jpg" class="card-img-top" alt="..." width="890" height="250">
+        <div class="card-body">
+          <h5 class="card-title">My profile </h5>
+          <p class="card-text"> Here you can access your account if you want to change your name or your password, you can also delete your account if you want. </p>
+          <a href="/my_profile" class="btn btn-primary">Go to my profile</a>
         </div>
       </div>
     </div>
@@ -56,18 +71,15 @@
         </div>
       </div>
     </div>
-    <div class="col mb-4">
-      <div class="card">
-        <img src="https://d1yn1kh78jj1rr.cloudfront.net/image/thumbnail/SU-PbE1GZj3g74gvz/graphicstock-profile-icon-vector-illustration_r6gQYwokVW_thumb.jpg" class="card-img-top" alt="..." width="890" height="250">
-        <div class="card-body">
-          <h5 class="card-title">My profile </h5>
-          <p class="card-text"> Here you can access your account if you want to change your name or your password, you can also delete your account if you want. </p>
-          <a href="/my_profile" class="btn btn-primary">Go to my profile</a>
-        </div>
-      </div>
-    </div>
+
 
   </div>
+
   </div>
 
 </body>
+
+<br><br><br>
+
+
+{{> footer}}

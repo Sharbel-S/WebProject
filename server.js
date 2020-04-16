@@ -67,6 +67,7 @@ app.post('/loginTeacher' , (req, res)=> {
 app.post('/new_student_user',(req,res)=> {
   var name = model.test_if_name_already_exist_for_student(req.body.name);
   if(name === -1){
+    req.flash('info', 'The name you chosen is already used');
     res.redirect('/new_student_user');
   }
   else{
@@ -82,7 +83,8 @@ app.post('/new_student_user',(req,res)=> {
 app.post('/new_teacher_user',(req,res)=> {
   var name  = model.test_if_name_already_exist_for_teacher(req.body.name);
   if(name === -1){
-    res.redirect('name_already_used');
+    req.flash('info', 'The name you chosen is already used');
+    res.redirect('/new_teacher_user');
   }
   else{
     req.session.teacher_user = model.new_teacher_user(req.body.name, req.body.password);
@@ -279,8 +281,8 @@ app.post('/change_password', is_authenticated, (req, res) => {
        }
       else {
           model.change_teacher_password(req.body.name, req.body.password, req.body.new_password);
+          req.flash('info', 'The password has been changed successfully');          
           res.redirect('/principal_page');
-          //TODO  display a flash message when success
          }
 
        } 
@@ -297,7 +299,7 @@ app.post('/change_password', is_authenticated, (req, res) => {
        }
        else {
          model.change_student_password(req.body.name, req.body.password, req.body.new_password);
-         //req.session.student_name = req.body.name;
+         req.flash('info', 'The password has been changed successfully');          
          res.redirect('/principal_page');
        } 
   }
