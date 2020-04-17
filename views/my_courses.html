@@ -3,8 +3,11 @@
 
 <body>
   <div class="info">
-    <h2 style="color:green;"> {{messages.info}} </h2> <br>
+    <h2 style="color:green;"> {{messages.info_add}} </h2> 
+    <h2 style="color:orange;"> {{messages.info_edit}} </h2> 
+    <h2 style="color:red;"> {{messages.info_delete}} </h2> 
   </div>
+  <br>
     <form class="form-inline my-2 my-lg-0" action="/search">
       <input class="form-control mr-sm-4" type="text" placeholder="Search by subject, title or teacher" name="query" aria-label="Search" value="{{query}}">
       <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search">

@@ -355,18 +355,20 @@ app.post('/edit/:id', (req,res) => {
   const id = req.params.id;
   var data = post_data_to_course(req);
   model.update_course(id, data);
-  res.redirect('/courses_list', );
+  req.flash('info_edit', 'The course has been modified succesfuly');
+  res.redirect('/my_courses');
 });
 
 app.post("/delete/:id", (req, res) => {
   const id = req.params.id;
   model.delete_course(id);
-  res.redirect('/courses_list');
+  req.flash('info_delete', 'The course has been removed succesfuly');
+  res.redirect('/my_courses');
 });
 
 app.post('/add',(req,res) => {
   model.create_course(post_data_to_course(req));
-  req.flash('info', 'The course has been added succesfuly');
+  req.flash('info_add', 'The course has been added succesfuly');
   res.redirect('/my_courses');
 });
 
