@@ -12,29 +12,36 @@
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 
-        <a class="navbar-brand"  href="/">
+        <a class="navbar-brand"  href="#" style="color: rgb(63, 159, 223);"  >
             <img src="https://i.pinimg.com/474x/e1/ba/0c/e1ba0cad5c4a3c6907f73b794a821f3a.jpg" width="35" height="35" class="rounded-circle" class="d-inline-block align-top" alt=""> Studypedia
         </a>
         {{#authenticated}}
-        <p> &emsp; &nbsp; &nbsp;</p>
-        <span class="navbar-text">
-        <img src="  https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Facebook_Home_logo.svg/1200px-Facebook_Home_logo.svg.png" width="30" height="30" class="rounded-circle" alt="">
-        </span>
-        <a class="nav-link" style="color: white;" href="/principal_page"> Home <span class="sr-only">(current)</span></a> 
+        
+        <p> &emsp; &emsp; &nbsp; &nbsp;</p>
+
+        <a class="navbar-brand"  href="/principal_page" style="font-size: medium;">
+            <img src="  https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Facebook_Home_logo.svg/1200px-Facebook_Home_logo.svg.png" width="30" height="30" class="rounded-circle" alt=""> Home
+        </a>
+        
         {{#authen_student}}
-        <span class="navbar-text">
-              <img src="https://i7.pngguru.com/preview/474/499/753/facebook-messenger-like-button-emoji-face.jpg" width="30" height="30" class="rounded-circle" alt="">
-            </span>
-        <a class="nav-link"  style="color: white;" href="/favorite_list">My favorites</a> 
+        <a class="navbar-brand"  href="/favorite_list" style="font-size: medium;">
+            <img src="https://i7.pngguru.com/preview/474/499/753/facebook-messenger-like-button-emoji-face.jpg" width="30" height="30" class="rounded-circle" alt=""> My favorites
+        </a>
         {{/authen_student}}
+        
        {{#authen_teacher}}
-       <img src="https://www.sheetmetal-iti.org/img/courses.png" width="30" height="30" class="rounded-circle" alt="">
-        <a class="nav-link" style="color: white;" href="/my_courses">My Courses</a> {{/authen_teacher}}
-        <span class="navbar-text"> <img src="https://www.icone-png.com/png/49/49276.png" width="30" height="30" class="rounded-circle" alt=""> 
 
-              </span>
+       <a class="navbar-brand"  href="/my_courses" style="font-size: medium;">
+        <img src="https://www.sheetmetal-iti.org/img/courses.png" width="30" height="30" class="rounded-circle" alt=""> My Courses
+    </a>
+        {{/authen_teacher}}
 
-        <a class="nav-link" style="color: white;" href="/help"> Help </a> {{/authenticated}}
+
+        <a class="navbar-brand"  href="/help" style="font-size: medium;">
+            <img src="https://www.icone-png.com/png/49/49276.png" width="30" height="30" class="rounded-circle" alt="">   Help      </a>
+
+       {{/authenticated}}
+
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
                 {{^authenticated}}
@@ -45,9 +52,9 @@
         </div>
         {{#authenticated}}
 
-        <img src="https://www.pikpng.com/pngl/b/80-805068_my-profile-icon-blank-profile-picture-circle-clipart.png" width="30" height="30" class="rounded-circle" alt="">
-
-        <a class="nav-link" style="color: white;" href="/my_profile"> My profile  &emsp;</a>
+        <a class="navbar-brand"  href="/my_profile" style="font-size: medium;">
+            <img src="https://www.pikpng.com/pngl/b/80-805068_my-profile-icon-blank-profile-picture-circle-clipart.png" width="30" height="30" class="rounded-circle" alt=""> My profile
+        </a>
 
         <form class="form-inline my-2 my-lg-0">
             <a href="/logout" class="btn btn-primary mr-2">Sign out</a>
