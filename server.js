@@ -220,6 +220,10 @@ app.get('/my_profile' , (req,res) => {
   res.render('my_profile');
 })
 
+app.get('/help', (req,res ) => {
+  res.render('help');
+});
+
 app.get('/change_name', (req,res) => {
   res.render('change_name');
 });
