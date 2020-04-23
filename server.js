@@ -190,7 +190,9 @@ app.get('/unlike/:id', (req,res) => {
 
 app.get('/likers/:id' , (req, res) => {
   var likers_list = model.get_likers_list(req.params.id);
-  res.render('likers' , { likers_list:likers_list})
+  var course_name = model.get_course_name(req.params.id);
+  console.log( { likers_list:likers_list, course_name});
+  res.render('likers' , { likers_list:likers_list, course_name})
 
 });
 
