@@ -2,9 +2,11 @@
 
 
 
+<h2> Students who liked the course {{course_name.title}} :</h2> <br>
 
 {{#likers_list}}
-<li>  {{name}}</li>
-
+<ul class="list-group list-group-horizontal-md">
+    <li class="list-group-item">{{name}}</li>
+  </ul>
 
 {{/likers_list}}

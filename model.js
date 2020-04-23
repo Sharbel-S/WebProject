@@ -57,6 +57,13 @@ exports.get_course_information_from_id = function(id){
   return course_information;
 }
 
+exports.get_course_name = function(id){
+  var course_name = db.prepare('SELECT title FROM courses WHERE id = ?').get([id]);
+  return course_name;
+
+
+}
+
 /*
 * This method update a course from his id
 */
@@ -123,6 +130,7 @@ exports.get_my_courses = function(name) {
   var my_courses_list = db.prepare('SELECT * FROM courses WHERE teacher = ?').all(name);
   return my_courses_list;
 }
+
 
 exports.remove_from_favorite = function(id){
   db.prepare('DELETE FROM favorite WHERE course_id = ?').run(id);
