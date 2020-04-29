@@ -5,15 +5,16 @@
 
 
 
-{{#authen_student}}
 
-{{/authen_student}}
 
 
 <div class="row no-gutters">
+  {{#authen_student}}
 
   <div class="col-sm-6 col-md-8">  <a class="btn btn-sm btn-success" href="/favorite/{{id}}" onclick="alertFunction()"> Add to favorite </a> 
     <a class="btn btn-sm btn-danger" href="/remove_favorite/{{id}}" onclick="alertFunction2()"> remove from favorite </a> 
+    {{/authen_student}}
+
       </div>
   <div class="col-6 col-md-4"> <p>  {{likers}} <a href="/likers/{{id}}"> Student/s</a> liked this course </p> 
   </div>

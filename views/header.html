@@ -12,35 +12,32 @@
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 
-        <a class="navbar-brand"  href="#" style="color: rgb(63, 159, 223);"  >
+        <a class="navbar-brand" href="#" style="color: rgb(63, 159, 223);">
             <img src="https://i.pinimg.com/474x/e1/ba/0c/e1ba0cad5c4a3c6907f73b794a821f3a.jpg" width="35" height="35" class="rounded-circle" class="d-inline-block align-top" alt=""> Studypedia
         </a>
         {{#authenticated}}
-        
+
         <p> &emsp; &emsp; &nbsp; &nbsp;</p>
 
-        <a class="navbar-brand"  href="/principal_page" style="font-size: medium;">
+        <a class="navbar-brand" href="/principal_page" style="font-size: medium;">
             <img src="  https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Facebook_Home_logo.svg/1200px-Facebook_Home_logo.svg.png" width="30" height="30" class="rounded-circle" alt=""> Home
         </a>
-        
+
         {{#authen_student}}
-        <a class="navbar-brand"  href="/favorite_list" style="font-size: medium;">
+        <a class="navbar-brand" href="/favorite_list" style="font-size: medium;">
             <img src="https://i7.pngguru.com/preview/474/499/753/facebook-messenger-like-button-emoji-face.jpg" width="30" height="30" class="rounded-circle" alt=""> My favorites
         </a>
-        {{/authen_student}}
-        
-       {{#authen_teacher}}
+        {{/authen_student}} {{#authen_teacher}}
 
-       <a class="navbar-brand"  href="/my_courses" style="font-size: medium;">
-        <img src="https://www.sheetmetal-iti.org/img/courses.png" width="30" height="30" class="rounded-circle" alt=""> My Courses
-    </a>
+        <a class="navbar-brand" href="/my_courses" style="font-size: medium;">
+            <img src="https://www.sheetmetal-iti.org/img/courses.png" width="30" height="30" class="rounded-circle" alt=""> My Courses
+        </a>
         {{/authen_teacher}}
 
+        <a class="navbar-brand" href="/help" style="font-size: medium;">
+            <img src="https://www.icone-png.com/png/49/49276.png" width="30" height="30" class="rounded-circle" alt=""> Help </a>
 
-        <a class="navbar-brand"  href="/help" style="font-size: medium;">
-            <img src="https://www.icone-png.com/png/49/49276.png" width="30" height="30" class="rounded-circle" alt="">   Help      </a>
-
-       {{/authenticated}}
+        {{/authenticated}}
 
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
@@ -52,7 +49,7 @@
         </div>
         {{#authenticated}}
 
-        <a class="navbar-brand"  href="/my_profile" style="font-size: medium;">
+        <a class="navbar-brand" href="/my_profile" style="font-size: medium;">
             <img src="https://www.pikpng.com/pngl/b/80-805068_my-profile-icon-blank-profile-picture-circle-clipart.png" width="30" height="30" class="rounded-circle" alt=""> My profile
         </a>
 
@@ -66,4 +63,3 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
