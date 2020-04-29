@@ -1,14 +1,11 @@
 {{> header}}
 
-<h1> Teachers : </h1>
+<h2 style="font-style:oblique;">List of teachers : </h2> <br>
 
 <div>
 {{#list}}
-<ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        <a href="/teacher_courses/{{name}}" > {{name}}  </a>
-        <span class="badge badge-primary badge-pill">14</span>
-    </li>
-  </ul>
+  <div id="list-example" class="list-group">
+    <strong> <a class="list-group-item list-group-item-action" style="font-size: large;font-style:oblique;color: rgb(43, 132, 206);" href="/teacher_courses/{{name}}">{{name}}</a></strong>
+  </div>
 {{/list}}
 </div>
