@@ -129,9 +129,6 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/about',(req,res) => {
-  res.render('about');
-});
 
 // Applying the middleware to the routes that needs authentication
 app.use(is_authenticated);
@@ -405,7 +402,6 @@ function is_authenticated(req, res, next) {
     return next();
   }
   if(req.session.teacher_user !== undefined) {
-
     res.locals.authen_teacher = true;
     res.locals.authenticated = true;
     return next();
