@@ -247,7 +247,8 @@ app.get('/teachers_list', (req,res) => {
 
 app.get('/teacher_courses/:name', (req,res) => {
   var courses = model.get_all_teacher_courses(req.params.name);
-  res.render('teacher_courses', {list:courses});
+  var number_of_courses_per_teacher = model.get_number_of_courses_per_teacher(req.params.name);
+  res.render('teacher_courses', {list:courses, number_of_courses_per_teacher});
 });
 
 //POST methodes
