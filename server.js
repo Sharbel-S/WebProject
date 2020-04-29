@@ -239,6 +239,13 @@ app.get('/change_password', (req,res) => {
 });
 
 
+app.get('/teachers_list', (req,res) => {
+  var teachers_list = model.get_teachers_list();
+  res.render('teachers_list', {list:teachers_list});
+});
+
+
+
 
 //POST methodes
 
