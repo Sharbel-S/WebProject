@@ -173,3 +173,11 @@ exports.get_teachers_list = function(){
   var teachers = db.prepare('SELECT name FROM teacherusers').all();
   return teachers;
 }
+
+exports.get_all_teacher_courses = function(name){
+  var courses = db.prepare('SELECT * FROM courses WHERE teacher = ?').get([name]);
+  console.log(courses);
+  return courses;
+}
+
+
