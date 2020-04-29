@@ -60,8 +60,6 @@ exports.get_course_information_from_id = function(id){
 exports.get_course_name = function(id){
   var course_name = db.prepare('SELECT title FROM courses WHERE id = ?').get([id]);
   return course_name;
-
-
 }
 
 /*
@@ -90,13 +88,11 @@ exports.create_course = function(courses){
 */
 exports.search_course = function(query){
   query = query || "";
-  var results = db.prepare('SELECT * FROM courses WHERE subject LIKE ? OR title LIKE ? OR teacher LIKE ?').all([query, query, query]);
+  var results = db.prepare('SELECT * FROM courses WHERE subject LIKE ? OR title LIKE ? OR teacher LIKE ?').all(['%'+ query+ '%','%' + query + '%','%'+  query +'%']);
   return results;
 }
 
-/*
-* 
-*/
+
 exports.add_like = function(results){
   db.prepare('INSERT INTO likers (name, course_id) VALUES (@name, @course_id)').run(results);
 }
@@ -170,4 +166,10 @@ exports.test_if_name_already_exist_for_student = function(name){
 exports.test_if_name_already_exist_for_teacher = function(name){
   var name = db.prepare('SELECT name FROM teacherusers WHERE name=?').get([name]);
   if (name != null) return -1;
+}
+
+
+exports.get_teachers_list = function(){
+  var teachers = db.prepare('SELECT name FROM teacherusers').all();
+  return teachers;
 }
