@@ -9,20 +9,25 @@
     <li class="list-group-item">  <a href="#favorites"> What is the Favorite section and how can i get my favorite list ? </a>  </li>
     <li class="list-group-item"> <a href="#removefavorite"> How can add/remove a course to my favorites ? </a></li>
     <li class="list-group-item"> <a href="#like"> What is the purpose of like and unlike a course ? </a></li>
+    <li class="list-group-item"> <a href="#read"> How can i read completly the course ? </a></li>
+
     {{/authen_student}}
 
     {{#authen_teacher}}
     <li class="list-group-item"> <a href="#addcourse"> How can add/remove/edit a course  ? </a></li>
     <li class="list-group-item"> <a href="#likers"> Where can i find the list of students who likes my course ? </a></li>
     <li class="list-group-item"> <a href="#teacher"> Can teachers like my courses ? </a></li>
+    <li class="list-group-item"> <a href="#mycourses"> How can i access my courses ? </a></li>
+
     {{/authen_teacher}}
 
     <li class="list-group-item">   <a href="#courselist"> What is the course list section and how can i get the courses list? </a></li>
     <li class="list-group-item"> <a href="#myprofile"> How can i access my profile and how can change my name or password ? </a></li>
-    <li class="list-group-item"> <a href="#read"> How can i read completly the course ? </a></li>
-  </ul>
+    <li class="list-group-item"> <a href="#teacherlist"> What is the list of teachers ? </a></li>
+  
+</ul>
 </div>
-<br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br>
 
 {{#authen_student}}
 <div id="favorites">
@@ -45,6 +50,13 @@
 <p>  The purpose of like and unlike buttons is to let students see if the courses they are reading is good or not, so it will help students find best courses. you can also see the list of students who liked a course </p>
 <img src="https://serving.photos.photobox.com/69748936c29ecc01984cd0e3194152a4887374698d59e18940bed28eae807c84be52766d.jpg"  width="1150" height="450">
 </div>
+<br><br><br><br><br><br>
+
+<div id="read">
+    <h3>How can i read completly the course ? </h3> 
+    
+    <p>  when you access your courses list or your favorite list, you can see infront every course there is a "more description" , when you click on it you will be able to read all the course. </p>
+    <img src="https://serving.photos.photobox.com/912832436413992e2548d6b0445fb6447d9b4bf405d679c13a87292bc2fb6c2ad36d7e45.jpg"   width="1150" height="350">
 <br><br><br><br><br><br>
 
 {{/authen_student}}
@@ -74,6 +86,13 @@
     </div>
 <br><br><br><br><br><br>
 
+<div id="mycourses">
+    <h3>How can i access my courses ?</h3> 
+    <p> As you can see in the photo you have two ways to access your courses<br> once your in, you can easly add, modify and delete your courses. </p>
+    <img src="https://serving.photos.photobox.com/50662529e02edb50e77a25f8fb99b5270b6ce590cef5990ed55820c021358324e6b0a8e2.jpg"  width="1150" height="400">
+    </div>
+<br><br><br><br><br><br>
+
 
     
 {{/authen_teacher}}
@@ -81,8 +100,15 @@
 <div id="courselist">
     <h3>What is the course list section and how can i get the courses list? </h3> 
     <p>  the course list contain all the courses that have been added by best teachers in the world, you can get the courses list by simply clicking on courses list in the home page as in the photo </p>
-    <img src="https://serving.photos.photobox.com/83933531698a15b977aea693464ee05135890280da4166e9b07f520c49b084a0d901b14e.jpg" width="1200" height="450">
-    </div>
+    {{#authen_teacher}}
+    <img src="https://serving.photos.photobox.com/06681789333fc322601a827ff167c882538f8d57786d3341edd989252087bf0b601a17ad.jpg" width="1200" height="450">
+    {{/authen_teacher}}
+    {{#authen_student}}
+
+    <img src="https://serving.photos.photobox.com/3481790593704755ec4fb7ae944c605de9a3556cb0a5d4dffa651d6403edfa4ea71feb29.jpg" width="1200" height="450">
+    {{/authen_student}}
+
+</div>
     <br><br><br><br><br><br>
 
 
@@ -90,11 +116,11 @@
 <h3>How can i access my profile and how can change my name or password ?</h3> 
 <p>  you have two ways to access your profile, as you can see in the photo, when you are in your profile your delete your account or change your name or your password if you want to. </p>
 {{#authen_student}}
-<img src="https://serving.photos.photobox.com/378502729e81adacace4db365b281b98a76c3afa5d5101796b8045bfe8bb8a1037eb6b5f.jpg"  width="1150" height="550">
+<img src="https://serving.photos.photobox.com/55970747874cd81e421d9e6814195f35b974db8163d8efae5491d4846ad0fcbbea343e4b.jpg"  width="1150" height="550">
 {{/authen_student}}
 
 {{#authen_teacher}}
-<img src="https://serving.photos.photobox.com/25998226c942e8896116a560fbba25e870ac3b5337ce81534d25134b1905eaa4aa6b6a88.jpg"  width="1150" height="550">
+<img src="https://serving.photos.photobox.com/1952232585950c2b89d260ecd60d641e9bbfe3a5492581ee9b9be524c56149bc87bb2871.jpg"  width="1150" height="550">
 
 {{/authen_teacher}}
 
@@ -105,17 +131,21 @@
 
     
 
+{{#authen_student}}
 <div id="read">
 <h3>How can i read completly the course ? </h3> 
 
 <p>  when you access your courses list or your favorite list, you can see infront every course there is a "more description" , when you click on it you will be able to read all the course. </p>
-{{#authen_student}}
 <img src="https://serving.photos.photobox.com/912832436413992e2548d6b0445fb6447d9b4bf405d679c13a87292bc2fb6c2ad36d7e45.jpg"   width="1150" height="350">
 {{/authen_student}}
-{{#authen_teacher}}
-<img src="https://serving.photos.photobox.com/3639256857ae255a1d257ff7a9308115462862dbc2353921c0a15034df6bc08d7b99fbe8.jpg" width="1150" height="350">
-{{/authen_teacher}}
+
 
 </div>
-<br><br><br>
+<br><br><br><br><br><br>
+
+<div id="teacherlist">
+    <h3>What is the list of teachers ? </h3> 
+    <p>  The list of teachers is a place where you can find all the teachers that have an account in our website. <br> It helps you to find easly your teacher, when you chose one from the list, you will have all his courses that he added. </p>
+    </div>
+    <br><br>
 
