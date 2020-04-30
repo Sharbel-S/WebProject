@@ -5,7 +5,13 @@ const cookieSession = require('cookie-session');
 
 var flash = require('express-flash');
 
-var model = require('./model');
+var student_model = require('./models/student_model');
+var teacher_model = require('./models/teacher_model');
+var favorite_model = require('./models/favorite_model');
+var liker_model = require('./models/liker_model');
+var courses_model = require('./models/courses_model');
+
+
 var app = express();
 
 const bodyParser = require('body-parser');
@@ -29,7 +35,7 @@ app.use(cookieSession({
 * else it will redirect the user to the principal page
 */
 app.post('/loginStudent',(req,res)=> {
-  var id = model.login_student(req.body.name, req.body.password);
+  var id = student_model.login_student(req.body.name, req.body.password);
   if (id === -1){
     req.flash('info', 'Incorect username or password');
     res.redirect('/loginStudent');
@@ -45,7 +51,7 @@ app.post('/loginStudent',(req,res)=> {
 * Same method above but with the teachers
 */
 app.post('/loginTeacher' , (req, res)=> {
-  var id = model.login_teacher(req.body.name, req.body.password);
+  var id = teacher_model.login_teacher(req.body.name, req.body.password);
   if (id === -1){
     req.flash('info', 'Incorect username or password');
     res.redirect('/loginTeacher');
@@ -65,13 +71,13 @@ app.post('/loginTeacher' , (req, res)=> {
 * to the principal page
 */
 app.post('/new_student_user',(req,res)=> {
-  var name = model.test_if_name_already_exist_for_student(req.body.name);
+  var name = student_model.test_if_name_already_exist_for_student(req.body.name);
   if(name === -1){
     req.flash('info', 'The name you chosen is already used');
     res.redirect('/new_student_user');
   }
   else{
-    req.session.student_user = model.new_student_user(req.body.name, req.body.password);
+    req.session.student_user = student_model.new_student_user(req.body.name, req.body.password);
     req.session.student_name = req.body.name;
     res.redirect('/principal_page');  
   }
@@ -81,13 +87,13 @@ app.post('/new_student_user',(req,res)=> {
 * Same method above but with the teachers
 */
 app.post('/new_teacher_user',(req,res)=> {
-  var name  = model.test_if_name_already_exist_for_teacher(req.body.name);
+  var name  = teacher_model.test_if_name_already_exist_for_teacher(req.body.name);
   if(name === -1){
     req.flash('info', 'The name you chosen is already used');
     res.redirect('/new_teacher_user');
   }
-  else{
-    req.session.teacher_user = model.new_teacher_user(req.body.name, req.body.password);
+    else{
+    req.session.teacher_user = teacher_model.new_teacher_user(req.body.name, req.body.password);
     req.session.teacher_name = req.body.name;
     res.redirect('/principal_page');
   }
@@ -135,32 +141,32 @@ app.use(is_authenticated);
 
 
 app.get('/principal_page' ,(req,res) =>{
-  if(req.session.student_name === undefined) {
-    res.render('principal_page', {name: req.session.teacher_name})
+  if(req.session.student_name === undefined ) {
+    res.render('principal_page', {name: req.session.teacher_name});
   }
-  else{
+  else {
     res.render('principal_page' , {name: req.session.student_name} );
   }
 });
 
 app.get('/courses_list' ,(req,res) => {
-  var results = model.courses_list();
+  var results = courses_model.courses_list();
   res.render('courses_list',  {list:results} );
 });
 
 app.get('/edit/:id' ,(req,res)=> {
-  var courses_info = model.get_course_information_from_id(req.params.id);
+  var courses_info = courses_model.get_course_information_from_id(req.params.id);
   res.render('edit-course-form', courses_info )
 });
 
 app.get('/delete/:id' ,(req,res) => {
-  var courses_info = model.get_course_information_from_id(req.params.id);
+  var courses_info = courses_model.get_course_information_from_id(req.params.id);
   res.render('delete', courses_info)
 });
 
 app.get('/read/:id', (req,res) => {
-  var courses_info = model.get_course_information_from_id(req.params.id);  
-  var likers = model.likers_number(req.params.id);
+  var courses_info = courses_model.get_course_information_from_id(req.params.id);  
+  var likers = liker_model.likers_number(req.params.id);
   var result = finalResults(courses_info, likers);
   res.render('read', result );
 });
@@ -171,47 +177,46 @@ app.get('/add',(req,res) => {
 
 
  app.get('/search', (req,res) => {
-  var results = model.search_course(req.query.query);
+  var results = courses_model.search_course(req.query.query);
   res.render('search',  {list:results} );
 });
 
 app.get('/like/:id' , (req, res) => {
-    model.add_like(get_data_likers(req));
+    liker_model.add_like(get_data_likers(req));
     res.redirect('/courses_list');
 });
 
 app.get('/unlike/:id', (req,res) => {
-  model.remove_like(get_data_likers(req));
+  liker_model.remove_like(get_data_likers(req));
   res.redirect('/courses_list');
 });
 
 app.get('/likers/:id' , (req, res) => {
-  var likers_list = model.get_likers_list(req.params.id);
-  var course_name = model.get_course_name(req.params.id);
-  console.log( { likers_list:likers_list, course_name});
+  var likers_list = liker_model.get_likers_list(req.params.id);
+  var course_name = courses_model.get_course_name(req.params.id);
   res.render('likers' , { likers_list:likers_list, course_name})
 
 });
 
 app.get('/favorite/:id' , (req,res) => {
-  var courses_info = model.get_course_information_from_id(req.params.id);
-  model.add_to_favorite(get_data_favorites(req, courses_info));
+  var courses_info = courses_model.get_course_information_from_id(req.params.id);
+  favorite_model.add_to_favorite(get_data_favorites(req, courses_info));
   res.redirect('/courses_list' );
 })
 
 app.get('/favorite_list' ,(req,res) => {
-  var favorite_list = model.get_favorite_list(req.session.student_name);
+  var favorite_list = favorite_model.get_favorite_list(req.session.student_name);
   res.render('favorite_list', {list: favorite_list})
 });
 
 app.get('/my_courses'  , (req, res ) => {
-  var my_courses = model.get_my_courses(req.session.teacher_name)
+  var my_courses = courses_model.get_my_courses(req.session.teacher_name)
   res.render('my_courses' , {list: my_courses });
 });
 
 
 app.get('/remove_favorite/:id' , (req, res) => {
-  model.remove_from_favorite(req.params.id);
+  favorite_model.remove_from_favorite(req.params.id);
   res.redirect('/courses_list')
 });
 
@@ -237,14 +242,14 @@ app.get('/change_password', (req,res) => {
 
 
 app.get('/teachers_list', (req,res) => {
-  var teachers_list = model.get_teachers_list();
+  var teachers_list = teacher_model.get_teachers_list();
   res.render('teachers_list', {list:teachers_list});
 });
 
 
 app.get('/teacher_courses/:name', (req,res) => {
-  var courses = model.get_all_teacher_courses(req.params.name);
-  var number_of_courses_per_teacher = model.get_number_of_courses_per_teacher(req.params.name);
+  var courses = courses_model.get_all_teacher_courses(req.params.name);
+  var number_of_courses_per_teacher = courses_model.get_number_of_courses_per_teacher(req.params.name);
   res.render('teacher_courses', {list:courses, number_of_courses_per_teacher});
 });
 
@@ -259,11 +264,13 @@ app.get('/teacher_courses/:name', (req,res) => {
 */
 app.post('/delete_account', (req,res) => {
   if(req.session.student_name === undefined) {
-    model.delete_teacher_account(req.session.teacher_name);
+    teacher_model.delete_teacher_account(req.session.teacher_name);
+    req.session.teacher_name = undefined;
     res.redirect('/')
   }
   else{
-    model.delete_student_account(req.session.student_name);
+    student_model.delete_student_account(req.session.student_name);
+    req.session.student_name = undefined;
     res.redirect('/')
   }
 });
@@ -280,7 +287,7 @@ app.post('/delete_account', (req,res) => {
 */
 app.post('/change_password', is_authenticated, (req, res) => {
   if(req.session.student_name === undefined) {
-    var valide_name_password = model.login_teacher(req.body.name, req.body.password);
+    var valide_name_password = teacher_model.login_teacher(req.body.name, req.body.password);
     if (valide_name_password === -1 ){
       req.flash('info', 'Incorect username or password');
       res.redirect('/change_password');
@@ -291,14 +298,14 @@ app.post('/change_password', is_authenticated, (req, res) => {
 
        }
       else {
-          model.change_teacher_password(req.body.name, req.body.password, req.body.new_password);
+          teacher_model.change_teacher_password(req.body.name, req.body.password, req.body.new_password);
           req.flash('info', 'The password has been changed successfully');          
           res.redirect('/principal_page');
          }
 
        } 
   else{
-    var valide_name_password = model.login_student(req.body.name, req.body.password);
+    var valide_name_password = student_model.login_student(req.body.name, req.body.password);
     if (valide_name_password === -1) {
       req.flash('info', 'Incorect username or password');
       res.redirect('/change_password');
@@ -309,7 +316,7 @@ app.post('/change_password', is_authenticated, (req, res) => {
       res.redirect('/change_password');
        }
        else {
-         model.change_student_password(req.body.name, req.body.password, req.body.new_password);
+        student_model.change_student_password(req.body.name, req.body.password, req.body.new_password);
          req.flash('info', 'The password has been changed successfully');          
          res.redirect('/principal_page');
        } 
@@ -327,8 +334,8 @@ app.post('/change_password', is_authenticated, (req, res) => {
 app.post('/change_name', (req,res) => {
   // if the name of student is undefined, it means that the user is a teacher
   if(req.session.student_name === undefined) {
-    var valide_name_password = model.login_teacher(req.body.name, req.body.password);
-    var new_name = model.test_if_name_already_exist_for_teacher(req.body.new_name);
+    var valide_name_password = teacher_model.login_teacher(req.body.name, req.body.password);
+    var new_name = teacher_model.test_if_name_already_exist_for_teacher(req.body.new_name);
     if (valide_name_password === -1) {
       req.flash('info', 'Incorect username or password');
       res.redirect('/change_name');
@@ -339,15 +346,15 @@ app.post('/change_name', (req,res) => {
       }
 
     else {
-         model.change_teacher_name(req.body.name, req.body.password, req.body.new_name);
+         teacher_model.change_teacher_name(req.body.name, req.body.password, req.body.new_name);
          req.session.student_name = req.body.name;
          req.flash('info_name', 'The name has been changed successfully');          
          res.redirect('/principal_page');
        } 
   }
   else{
-    var valide_name_password = model.login_student(req.body.name, req.body.password);
-    var new_name = model.test_if_name_already_exist_for_student(req.body.new_name);
+    var valide_name_password = student_model.login_student(req.body.name, req.body.password);
+    var new_name = student_model.test_if_name_already_exist_for_student(req.body.new_name);
     if (valide_name_password === -1){
       req.flash('info', 'Incorect username or password');
       res.redirect('/change_name');
@@ -357,7 +364,7 @@ app.post('/change_name', (req,res) => {
       res.redirect('/change_name');
     }
     else {
-         model.change_student_name(req.body.name, req.body.password, req.body.new_name);
+      student_model.change_student_name(req.body.name, req.body.password, req.body.new_name);
          req.session.student_name = req.body.name;
          req.flash('info_name', 'The name has been changed successfully');
          res.redirect('/principal_page');
@@ -368,20 +375,20 @@ app.post('/change_name', (req,res) => {
 app.post('/edit/:id', (req,res) => {
   const id = req.params.id;
   var data = post_data_to_course(req);
-  model.update_course(id, data);
+  courses_model.update_course(id, data);
   req.flash('info_edit', 'The course has been modified succesfuly');
   res.redirect('/my_courses');
 });
 
 app.post("/delete/:id", (req, res) => {
   const id = req.params.id;
-  model.delete_course(id);
+  courses_model.delete_course(id);
   req.flash('info_delete', 'The course has been removed succesfuly');
   res.redirect('/my_courses');
 });
 
 app.post('/add',(req,res) => {
-  model.create_course(post_data_to_course(req));
+  courses_model.create_course(post_data_to_course(req));
   req.flash('info_add', 'The course has been added succesfuly');
   res.redirect('/my_courses');
 });
@@ -396,12 +403,12 @@ app.post('/add',(req,res) => {
 * it works for both teachers and students
 */
 function is_authenticated(req, res, next) {
-  if(req.session.student_user !== undefined) {
+  if(req.session.student_name !== undefined) {
     res.locals.authen_student = true;
     res.locals.authenticated = true;
     return next();
   }
-  if(req.session.teacher_user !== undefined) {
+  if(req.session.teacher_name !== undefined) {
     res.locals.authen_teacher = true;
     res.locals.authenticated = true;
     return next();
