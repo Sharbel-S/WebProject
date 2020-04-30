@@ -347,7 +347,7 @@ app.post('/change_name', (req,res) => {
 
     else {
          teacher_model.change_teacher_name(req.body.name, req.body.password, req.body.new_name);
-         req.session.student_name = req.body.name;
+         req.session.teacher_name = req.body.name;
          req.flash('info_name', 'The name has been changed successfully');          
          res.redirect('/principal_page');
        } 
