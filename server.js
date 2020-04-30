@@ -145,6 +145,7 @@ app.get('/principal_page' ,(req,res) =>{
     res.render('principal_page', {name: req.session.teacher_name});
   }
   else {
+    console.log(req.session.student_name);
     res.render('principal_page' , {name: req.session.student_name} );
   }
 });
@@ -347,7 +348,9 @@ app.post('/change_name', (req,res) => {
 
     else {
          teacher_model.change_teacher_name(req.body.name, req.body.password, req.body.new_name);
-         req.session.teacher_name = req.body.name;
+         courses_model.change_teacher_name(req.body.name, req.body.new_name);
+         favorite_model.change_teacher_name(req.body.name, req.body.new_name);
+         req.session.teacher_name = req.body.new_name;
          req.flash('info_name', 'The name has been changed successfully');          
          res.redirect('/principal_page');
        } 
@@ -365,7 +368,9 @@ app.post('/change_name', (req,res) => {
     }
     else {
       student_model.change_student_name(req.body.name, req.body.password, req.body.new_name);
-         req.session.student_name = req.body.name;
+      favorite_model.change_student_name(req.body.name, req.body.new_name);
+      liker_model.change_student_name(req.body.name, req.body.new_name);
+         req.session.student_name = req.body.new_name;
          req.flash('info_name', 'The name has been changed successfully');
          res.redirect('/principal_page');
        } 

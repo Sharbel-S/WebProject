@@ -17,3 +17,13 @@ exports.get_favorite_list = function(student_name){
 exports.remove_from_favorite = function(id){
     db.prepare('DELETE FROM favorite WHERE course_id = ?').run(id);
 }
+
+exports.change_student_name = function(old_name, new_name){
+    db.prepare('UPDATE favorite SET name = ? WHERE name = ?').run(new_name,old_name );
+}
+  
+exports.change_teacher_name = function(old_name, new_name){
+    db.prepare('UPDATE favorite SET course_teacher = ? WHERE course_teacher = ?').run(new_name,old_name );
+}
+  
+

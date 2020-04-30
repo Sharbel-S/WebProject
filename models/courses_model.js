@@ -61,4 +61,8 @@ exports.get_number_of_courses_per_teacher = function(name){
     var number_of_courses = db.prepare('SELECT count(*) as nb FROM courses WHERE teacher = ?').get([name]);
     return number_of_courses;
 }
+
+exports.change_teacher_name = function(old_name, new_name){
+    db.prepare('UPDATE courses SET teacher = ? WHERE teacher = ?').run(new_name,old_name );
+}
   

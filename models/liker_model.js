@@ -23,3 +23,7 @@ exports.add_like = function(results){
     return list;
   }
   
+  exports.change_student_name = function(old_name, new_name){
+    db.prepare('UPDATE likers SET name = ? WHERE name = ?').run(new_name,old_name );
+}
+  
