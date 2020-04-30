@@ -26,4 +26,8 @@ exports.add_like = function(results){
   exports.change_student_name = function(old_name, new_name){
     db.prepare('UPDATE likers SET name = ? WHERE name = ?').run(new_name,old_name );
 }
-  
+
+
+exports.delete_student_account = function(name){
+  db.prepare('DELETE FROM likers WHERE name = ?').run(name);
+}

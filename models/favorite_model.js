@@ -25,5 +25,13 @@ exports.change_student_name = function(old_name, new_name){
 exports.change_teacher_name = function(old_name, new_name){
     db.prepare('UPDATE favorite SET course_teacher = ? WHERE course_teacher = ?').run(new_name,old_name );
 }
+
+exports.delete_student_account = function(name){
+    db.prepare('DELETE FROM favorite WHERE name = ?').run(name);
+}
+  
+exports.delete_teacher_account = function(name){
+    db.prepare('DELETE FROM favorite WHERE course_teacher = ?').run(name);
+}
   
 

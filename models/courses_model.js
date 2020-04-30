@@ -65,4 +65,7 @@ exports.get_number_of_courses_per_teacher = function(name){
 exports.change_teacher_name = function(old_name, new_name){
     db.prepare('UPDATE courses SET teacher = ? WHERE teacher = ?').run(new_name,old_name );
 }
-  
+
+exports.delete_teacher_account = function(name){
+    db.prepare('DELETE FROM courses WHERE teacher = ?').run(name);
+}

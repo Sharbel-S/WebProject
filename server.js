@@ -266,11 +266,15 @@ app.get('/teacher_courses/:name', (req,res) => {
 app.post('/delete_account', (req,res) => {
   if(req.session.student_name === undefined) {
     teacher_model.delete_teacher_account(req.session.teacher_name);
+    courses_model.delete_teacher_account(req.session.teacher_name);
+    favorite_model.delete_teacher_account(req.session.teacher_name);
     req.session.teacher_name = undefined;
     res.redirect('/')
   }
   else{
     student_model.delete_student_account(req.session.student_name);
+    favorite_model.delete_student_account(req.session.student_name);
+    liker_model.delete_student_account(req.session.student_name);
     req.session.student_name = undefined;
     res.redirect('/')
   }
