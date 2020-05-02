@@ -141,12 +141,17 @@ app.use(is_authenticated);
 
 
 app.get('/principal_page' ,(req,res) =>{
-  if(req.session.student_name === undefined ) {
+  if(req.session.student_name === undefined && req.session.teacher_name !== undefined) {
     res.render('principal_page', {name: req.session.teacher_name});
   }
-  else {
-    console.log(req.session.student_name);
+  else if(req.session.student_name !== undefined && req.session.teacher_name === undefined){
     res.render('principal_page' , {name: req.session.student_name} );
+  }
+  else{
+    req.session.student_name = undefined;  
+    req.session.teacher_name = undefined;            
+    req.flash('error', 'An error has occured, please sign in again'); 
+    res.redirect('/signInChoice')
   }
 });
 
